@@ -2,16 +2,49 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Auth\Middleware\Authenticate as Middleware;
-use Illuminate\Http\Request;
+use Closure;
+use Illuminate\Support\Facades\Auth;
+use JWTAuth;
 
-class Authenticate extends Middleware
+class Authenticate
 {
     /**
-     * Get the path the user should be redirected to when they are not authenticated.
+    * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @param  string|null  $guard
+     * @return mixed
      */
-    protected function redirectTo(Request $request): ?string
+    public function handle($request, Closure $next, $guard = null)
     {
-        return $request->expectsJson() ? null : route('login');
+        try {
+            Auth::shouldUse($guard);
+            $user = JWTAuth::parseToken()->authenticate();
+            if (Auth::guard($guard)->guest()) {
+                if (!$request->ajax() || !$request->wantsJson()) {
+                    return errorResponse('You are not authorized.', 401);
+                } else {
+                    if (!(\Request::is('api/*'))) {
+                        return redirect()->guest('/login');
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+
+            $catchResponse = [];
+            if ($e instanceof \PHPOpenSourceSaver\JWTAuth\Exceptions\TokenExpiredException) {
+                $catchResponse = errorResponse('Token is Expired', 498);
+            } elseif ($e instanceof \PHPOpenSourceSaver\JWTAuth\Exceptions\TokenInvalidException) {
+
+                $catchResponse = errorResponse('Token is Invalid', 401);
+            } elseif ($e instanceof \PHPOpenSourceSaver\JWTAuth\Exceptions\TokenBlacklistedException) {
+                $catchResponse = errorResponse('The token has been blacklisted', 148);
+            } else {
+                $catchResponse = errorResponse('You are not authorized.', 401);
+            }
+            return $catchResponse;
+        }
+        return $next($request);
     }
 }
