@@ -56,7 +56,6 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $exception)
     {
-
         if($exception instanceof AuthenticationException){
             return errorResponse('you are not authenticated. Please login.', 401);
         }

@@ -40,6 +40,8 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapApiRoutes();
 
         $this->mapAdminRoutes();
+        
+        $this->mapClientRoutes();
 
         // $this->forceHttps();
     }
@@ -98,6 +100,21 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware('api')
             ->namespace($this->namespace)
             ->group(base_path('routes/admin_routes.php'));
+    }
+
+    /**
+     * Define the "client" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapClientRoutes()
+    {
+        Route::prefix('api/client')
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/client_routes.php'));
     }
 
     protected function forceHttps()

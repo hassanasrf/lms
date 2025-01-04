@@ -7,14 +7,14 @@ use Illuminate\Support\Facades\Route;
 | Admin API Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register admin API routes for your application. These
+| Here is where you can register client API routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "admin" middleware group. Enjoy building your API!
+| is assigned the "client" middleware group. Enjoy building your API!
 |
 */
 
 Route::get('/', function () {
-    return successResponse('Admin API is working');
+    return successResponse('Client API is working');
 });
 
 Route::group([
@@ -26,19 +26,18 @@ Route::group([
     // Route::post('register', 'AuthController@register')->name('register');
 
     Route::group([
-        'middleware' => ['auth:admin']
+        'middleware' => ['auth:client']
     ], function () {
 
-        Route::post('logout', 'AuthController@logout')->name('logout');
-        Route::get('profile', 'AuthController@getProfile')->name('get_profile');
-        Route::post('update-profile', 'AuthController@update')->name('update_profile');
+        // Route::post('logout', 'AuthController@logout')->name('logout');
+        // Route::get('get-profile', 'AuthController@getProfile')->name('get_profile');
+        // Route::post('update-profile', 'AuthController@update')->name('update_profile');
 
         Route::group([
-            'namespace' => 'Admin',
+            'namespace' => 'Client',
         ], function () {
 
-            Route::apiResource('roles', 'RoleController');
-            Route::apiResource('permissions', 'PermissionController');
+            //
 
         });
     });
