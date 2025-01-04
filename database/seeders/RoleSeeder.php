@@ -26,6 +26,6 @@ class RoleSeeder extends Seeder
     private function createRoles(): void
     {
         Role::updateOrCreate(['name' => 'super-admin']);
-        Role::updateOrCreate(['name' => 'client-admin']);
+        Role::updateOrCreate(['name' => 'client-admin']); // company admin
     }
 }

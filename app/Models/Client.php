@@ -3,9 +3,6 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Traits\HasRoles;
-use Spatie\Permission\Models\Permission;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -13,9 +10,20 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Admin extends Authenticatable implements JWTSubject
+class Client extends Authenticatable implements JWTSubject
 {
     use HasUuids, HasFactory, Notifiable, HasRoles, SoftDeletes;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+    ];
 
     /**
      * The accessors to append to the model's array form.
@@ -31,6 +39,7 @@ class Admin extends Authenticatable implements JWTSubject
      */
     protected $hidden = [
         'password',
+        'remember_token',
     ];
 
     /**
@@ -43,31 +52,12 @@ class Admin extends Authenticatable implements JWTSubject
     ];
 
     /**
-     * Get the role attribute for the user.
-     *
-     * @return string
-     */
-    public function getRoleNameAttribute()
-    {
-        return $this->roles->pluck('name') ?? null;
-    }
-
-    /**
-     * Get the permission attribute for the user.
-     *
-     * @return string
-     */
-    public function getPermissionAttribute()
-    {
-        return $this->getAllPermissions()->pluck('name') ?? [];
-    }
-
-    /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
      * @return mixed
      */
-    public function getJWTIdentifier(){
+    public function getJWTIdentifier()
+    {
         return $this->getKey();
     }
 
@@ -76,8 +66,8 @@ class Admin extends Authenticatable implements JWTSubject
      *
      * @return array
      */
-    public function getJWTCustomClaims(){
+    public function getJWTCustomClaims()
+    {
         return [];
     }
-
 }

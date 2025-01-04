@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Model;
 use App\Providers\RepositoryServiceProvider;
+use App\Repository\Contracts\PermissionRepositoryInterface;
+use App\Repository\Eloquent\PermissionRepository;
 
 class AppServiceProvider extends ServiceProvider
 {

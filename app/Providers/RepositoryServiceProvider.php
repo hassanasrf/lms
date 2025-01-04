@@ -23,18 +23,13 @@ class RepositoryServiceProvider extends ServiceProvider
         $repositoryNamespace = 'App\Repository\Eloquent';
         $contractsNamespace = 'App\Repository\Contracts';
 
-        $files = (new Filesystem)->files(app_path('Repository' . DIRECTORY_SEPARATOR . 'Eloquent'));
-
+        $files = (new Filesystem)->files(app_path('Repository/Eloquent'));
 
         foreach ($files as $file) {
-            if ($file === '.' || $file === '..') {
-                continue;
-            }
-
             $className = $file->getBasename('.php');
 
             $repositoryClass = "{$repositoryNamespace}\\{$className}";
-            $contractInterface = "{$contractsNamespace}\\{$className}Contract";
+            $contractInterface = "{$contractsNamespace}\\{$className}Interface";
 
             if (class_exists($repositoryClass) && interface_exists($contractInterface)) {
                 $this->app->bind($contractInterface, $repositoryClass);

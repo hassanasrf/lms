@@ -1,133 +1,110 @@
 <?php
 
-/**
- * successResponse
- *
- * @param  mixed $message
- * @param  array $result
- * @param  int $code
- * @param  bool $paginate
- * @return \Illuminate\Http\JsonResponse
- */
-if (! function_exists('successResponse')){
-    function successResponse($message, $result = [], $code = null, $paginate = false)
+if (! function_exists('successResponse')) {
+    /**
+     * @param $data
+     * @param string $message
+     * @param int $status_code
+     * @return \Illuminate\Http\JsonResponse
+     */
+    function successResponse($data = [], $message = '', $paginate = false, $code = null)
     {
-        $resultData = [];
-        $resultData = $result;
-        if ($paginate) {
-            $resultData = paginate($result);
+        if ($paginate && is_object($data)) {
+            $data = paginate($data);
         }
 
         $code = $code ?? getSuccessCode();
 
         $response = [
             'success' => true,
-            'status' => $code,
-            'message' => is_array($message) === TRUE ? $message : [$message],
-            'data' => $resultData
+            'status_code' => $code,
+            'message' => [$message],
+            'data' => $data
         ];
         return response()->json($response, $code);
     }
 }
 
-/**
- * errorResponse
- *
- * @param  mixed $error
- * @param  int $code
- * @param  array $data
- * @return \Illuminate\Http\JsonResponse
- */
-if (! function_exists('errorResponse')){
-    function errorResponse($error, $code = 400, $data = [])
+if (! function_exists('errorResponse')) {
+    /**
+     * @param $error
+     * @param string $message
+     * @param int $status_code
+     * @return \Illuminate\Http\JsonResponse
+     */
+    function errorResponse($message, int $code = 400, $data = [])
     {
-        if ($code == 'HY000') {
-            $error = "Something went wrong";
-        } elseif (is_string($error) && strpos($error, 'SQLSTATE[') !== false && app()->isProduction()) {
-            // Log the exception
-            \Log::error("Database Error $code: $error");
-
-            $error = "A database error occurred. Please contact support.";
-        }
-
+        $code = $code == 0 ? 400 : $code;
         $response = [
             'success' => false,
             'status' => $code,
-            'message' => is_array($error) == TRUE ? $error : [$error],
-            'data' => [],
+            'message' => $message,
+            'data' => $data
         ];
+        if ($code == 422) {
+            $response['data'] = $data;
+        }
 
-        $code = is_int($code) && $code !== 0 ? $code : 500;
-
+        $code = is_int($code) && $code != 0 ? $code : 500;
         return response()->json($response, $code);
     }
 }
-
-/**
- * arrayExcept
- *
- * @param  array $array
- * @param  array $keys
- * @return array
- */
-if (! function_exists('arrayExcept')){
-    function arrayExcept($array, $keys){
-        foreach($keys as $key){
-            unset($array[$key]);
-        }
-        return $array;
-    }
-}
-
-/**
- * paginate
- *
- * @param  array $data
- * @return array
- */
-if (!function_exists('paginate')) {
+if (! function_exists('paginate')) {
+    /**
+     * @param $data
+     * @return array|null
+     */
     function paginate($data = [])
     {
-        if (!$data) {
-            return null;
+
+        $paginationArray = null;
+        if ($data != null) {
+            $paginationArray = array('list' => $data->items(), 'pagination' => []);
+            $paginationArray['pagination']['total'] = $data->total();
+            $paginationArray['pagination']['current'] = $data->currentPage();
+            $paginationArray['pagination']['first'] = 1;
+            $paginationArray['pagination']['last'] = $data->lastPage();
+            if ($data->hasMorePages()) {
+                if ($data->currentPage() == 1) {
+                    $paginationArray['pagination']['previous'] = 0;
+                } else {
+                    $paginationArray['pagination']['previous'] = $data->currentPage() - 1;
+                }
+                $paginationArray['pagination']['next'] = $data->currentPage() + 1;
+            } else {
+                $paginationArray['pagination']['previous'] = $data->currentPage() - 1;
+                $paginationArray['pagination']['next'] = $data->lastPage();
+            }
+            if ($data->lastPage() > 1) {
+                $paginationArray['pagination']['pages'] = range(1, $data->lastPage());
+            } else {
+                $paginationArray['pagination']['pages'] = [1];
+            }
+            $paginationArray['pagination']['from'] = $data->firstItem();
+            $paginationArray['pagination']['to'] = $data->lastItem();
+
+            return $paginationArray;
         }
-
-        $currentPage = $data->currentPage();
-
-        return [
-            'data' => $data->items(),
-            'pagination' => [
-                'total' => $data->total(),
-                'per_page' => $data->perPage(),
-                'current' => $currentPage,
-                'first' => 1,
-                'last' => $data->lastPage(),
-                'previous' => ($currentPage > 1) ? $currentPage - 1 : null,
-                'next' => ($currentPage < $data->lastPage()) ? $currentPage + 1 : null,
-                // 'pages' => ($data->lastPage() > 1) ? range(1, $data->lastPage()) : [1],
-                'from' => $data->firstItem(),
-                'to' => $data->lastItem(),
-            ],
-        ];
+        return $paginationArray;
     }
 }
 
 /**
- * getSuccessCode
- *
+ * Get Success Code
  * @return int
  */
-if (!function_exists('getSuccessCode')) {
+if (! function_exists('getSuccessCode')) {
     function getSuccessCode()
     {
+        $code = 200;
         $trace = debug_backtrace();
         $caller = $trace[1]['function'] == 'successResponse' ? $trace[2]['function'] : $trace[1]['function'];
 
-        return match ($caller) {
-            'store' => 201,
-            'update', 'show' => 200,
-            'destroy' => 204,
-            default => 200,
-        };
+        if ($caller == 'store') {
+            $code = 201;
+        } elseif ($caller == 'destroy') {
+            $code = 204;
+        }
+        return $code;
     }
 }
