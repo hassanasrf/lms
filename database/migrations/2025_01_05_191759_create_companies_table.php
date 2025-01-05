@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('address')->nullable();
-            $table->foreignId('city_id')->constrained('countries')->cascadeOnDelete();
-            $table->foreignId('company_id')->constrained('companies')->cascadeOnDelete();
+            $table->foreignId('city_id')->constrained('cities')->cascadeOnDelete();
+            $table->foreignId('country_id')->constrained('countries')->cascadeOnDelete();
             $table->string('ntn_number')->nullable();
             $table->string('str_number')->nullable();
             $table->string('licence_name')->nullable();

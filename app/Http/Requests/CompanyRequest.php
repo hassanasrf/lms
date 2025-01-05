@@ -32,8 +32,8 @@ class CompanyRequest extends BaseRequest
         return [
             'name' => 'required|string|max:255',
             'address' => 'nullable|string|max:500',
-            'city_id' => 'required|exists:countries,id',
-            'company_id' => 'nullable|exists:companies,id',
+            'city_id' => 'required|exists:cities,id',
+            'country_id' => 'nullable|exists:countries,id',
             'ntn_number' => 'nullable|string|max:50',
             'str_number' => 'nullable|string|max:50',
             'licence_name' => 'nullable|string|max:255',
@@ -50,8 +50,8 @@ class CompanyRequest extends BaseRequest
         return [
             'name' => 'required|string|max:255',
             'address' => 'nullable|string|max:500',
-            'city_id' => 'required|exists:countries,id',
-            'company_id' => 'nullable|exists:companies,id',
+            'city_id' => 'required|exists:cities,id',
+            'country_id' => 'nullable|exists:countries,id',
             'ntn_number' => 'nullable|string|max:50',
             'str_number' => 'nullable|string|max:50',
             'licence_name' => 'nullable|string|max:255',

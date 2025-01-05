@@ -33,7 +33,7 @@ class CompanyController extends BaseController
 
             return successResponse($response, Constant::MESSAGE_FETCHED, $paginate);
         } catch (Exception $e) {
-            return errorResponse($e->getMessage(),$e->getCode());
+            return errorResponse($e->getMessage(), $e->getCode());
         }
     }
 
@@ -57,7 +57,7 @@ class CompanyController extends BaseController
     public function show(Company $company)
     {
         try {
-            $response = $this->repo->showModel($permission);
+            $response = $this->repo->showModel($company);
             
             return successResponse($response, Constant::MESSAGE_FETCHED);
         } catch (Exception $e) {
@@ -73,7 +73,7 @@ class CompanyController extends BaseController
         // TODO
         try {
             $data = $request->validated();
-            $response = $this->repo->updateModel($permission, $data);
+            $response = $this->repo->updateModel($company, $data);
 
             return successResponse($response, Constant::MESSAGE_UPDATED);
         } catch (Exception $e) {
@@ -87,7 +87,7 @@ class CompanyController extends BaseController
     public function destroy(Company $company)
     {
         try {
-            $this->repo->deleteByModel($permission);
+            $this->repo->deleteByModel($company);
 
             return successResponse(true, Constant::MESSAGE_DELETED);
         } catch (Exception $e) {
