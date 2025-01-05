@@ -6,6 +6,7 @@ namespace App\Models;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Traits\HasPermissions;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -15,7 +16,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Admin extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable, HasRoles, SoftDeletes;
+    use HasFactory, Notifiable, HasRoles, HasPermissions, SoftDeletes;
+
+    /**
+     * current model use admin guard for authentication
+     *
+     * @var string
+     */
+    protected $guard = "admin";
 
     /**
      * The attributes that are mass assignable.
