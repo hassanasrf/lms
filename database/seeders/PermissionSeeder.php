@@ -15,6 +15,7 @@ class PermissionSeeder extends Seeder
     {
         $permissions = [
             'user-read', 'user-create', 'user-update', 'user-delete',
+            'company-read', 'company-create', 'company-update', 'company-delete',
             'role-read', 'role-create', 'role-update', 'role-delete',
             'permission-read', 'permission-create', 'permission-update', 'permission-delete',
         ];
