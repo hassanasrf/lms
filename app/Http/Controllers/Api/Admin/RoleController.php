@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
+use App\Helpers\Constant;
 use Illuminate\Http\Request;
 use App\Http\Requests\RoleRequest;
 use Spatie\Permission\Models\Role;
@@ -30,7 +31,7 @@ class RoleController extends BaseController
             $perPage = (int) $request->get('perPage', 10);
             $relations = ['permissions','users'];
             $response = $this->repo->all(relations: $relations, paginate: $paginate, perPage: $perPage);
-            return successResponse($response, 'Record fetched successfully.', $paginate);
+            return successResponse($response, Constant::MESSAGE_FETCHED, $paginate);
         } catch (Exception $e) {
             return errorResponse($e->getMessage(),$e->getCode());
         }
@@ -43,7 +44,7 @@ class RoleController extends BaseController
     {
         try {
             $response = $this->repo->createRole($request->validated());
-            return successResponse($response, 'Record created successfully.');
+            return successResponse($response, Constant::MESSAGE_CREATED);
         } catch (Exception $e) {
             return errorResponse($e->getMessage(),$e->getCode());
         }
@@ -57,7 +58,7 @@ class RoleController extends BaseController
         try {
             $relations = ['permissions'];
             $response = $this->repo->showModel($role, $relations);
-            return successResponse($response, 'Record fetched successfully.');
+            return successResponse($response, Constant::MESSAGE_FETCHED);
         } catch (Exception $e) {
             return errorResponse($e->getMessage(),$e->getCode());
         }
@@ -71,7 +72,7 @@ class RoleController extends BaseController
         try {
             $data = $request->validated();
             $response = $this->repo->updateRole($role, $data);
-            return successResponse($response, 'Record updated successfully.');
+            return successResponse($response, Constant::MESSAGE_UPDATED);
         } catch (Exception $e) {
             return errorResponse($e->getMessage(),$e->getCode());
         }
@@ -84,7 +85,7 @@ class RoleController extends BaseController
     {
         try {
             $this->repo->deleteByModel($role);
-            return successResponse(true, 'Record deleted successfully.');
+            return successResponse(true, Constant::MESSAGE_DELETED);
         } catch (Exception $e) {
             return errorResponse($e->getMessage(),$e->getCode());
         }
