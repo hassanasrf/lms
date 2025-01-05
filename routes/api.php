@@ -25,20 +25,26 @@ Route::group([
     Route::post('login', 'AuthController@login')->name('login');
 
     Route::group([
-        'middleware' => ['auth:api'],
-        'namespace' => 'Admin'
+        'middleware' => ['auth:api']
     ], function () {
+
         Route::post('logout', 'AuthController@logout')->name('logout');
         Route::get('profile', 'AuthController@getProfile')->name('profile');
 
-        Route::apiResource('roles', 'RoleController');
-        Route::apiResource('permissions', 'PermissionController')->except(['index']);
+        Route::group([
+            'namespace' => 'Admin'
+        ], function () {
 
-        /**
-         * User Routes
-         */
-        Route::apiResource('users', 'UserController');
+            Route::apiResource('roles', 'RoleController');
+            Route::apiResource('companies', 'CompanyController');
+            Route::apiResource('permissions', 'PermissionController')->except(['index']);
 
+            /**
+             * User Routes
+             */
+            // Route::apiResource('users', 'UserController');
+
+        });
     });
 
 });

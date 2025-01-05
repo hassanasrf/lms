@@ -3,22 +3,22 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use Exception;
+use App\Models\Company;
 use App\Helpers\Constant;
 use Illuminate\Http\Request;
+use App\Http\Requests\CompanyRequest;
 use App\Http\Controllers\BaseController;
-use App\Http\Requests\PermissionRequest;
-use Spatie\Permission\Models\Permission;
-use App\Repository\Contracts\PermissionRepositoryInterface;
+use App\Repository\Contracts\CompanyRepositoryInterface;
 
-class PermissionController extends BaseController
+class CompanyController extends BaseController
 {
     public function __construct(
-        public readonly PermissionRepositoryInterface $repo)
+        public readonly CompanyRepositoryInterface $repo)
     {
-        // $this->middleware('permission:permission-read', ['only' => ['show']]);
-        $this->middleware('permission:permission-create', ['only' => 'store']);
-        $this->middleware('permission:permission-update', ['only' => 'update']);
-        $this->middleware('permission:permission-delete', ['only' => 'destroy']);
+        $this->middleware('permission:company-read', ['only' => ['index','show']]);
+        $this->middleware('permission:company-create', ['only' => 'store']);
+        $this->middleware('permission:company-update', ['only' => 'update']);
+        $this->middleware('permission:company-delete', ['only' => 'destroy']);
     }
 
     /**
@@ -40,7 +40,7 @@ class PermissionController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PermissionRequest $request)
+    public function store(CompanyRequest $request)
     {
         try {
             $response = $this->repo->create($request->validated());
@@ -54,11 +54,11 @@ class PermissionController extends BaseController
     /**
      * Display the specified resource.
      */
-    public function show(Permission $permission)
+    public function show(Company $company)
     {
         try {
             $response = $this->repo->showModel($permission);
-
+            
             return successResponse($response, Constant::MESSAGE_FETCHED);
         } catch (Exception $e) {
             return errorResponse($e->getMessage(),$e->getCode());
@@ -68,12 +68,13 @@ class PermissionController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(PermissionRequest $request, Permission $permission)
+    public function update(CompanyRequest $request, Company $company)
     {
+        // TODO
         try {
             $data = $request->validated();
-
             $response = $this->repo->updateModel($permission, $data);
+
             return successResponse($response, Constant::MESSAGE_UPDATED);
         } catch (Exception $e) {
             return errorResponse($e->getMessage(),$e->getCode());
@@ -83,11 +84,11 @@ class PermissionController extends BaseController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Permission $permission)
+    public function destroy(Company $company)
     {
         try {
             $this->repo->deleteByModel($permission);
-            
+
             return successResponse(true, Constant::MESSAGE_DELETED);
         } catch (Exception $e) {
             return errorResponse($e->getMessage(),$e->getCode());
