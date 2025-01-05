@@ -32,23 +32,30 @@ if (! function_exists('errorResponse')) {
      * @param int $status_code
      * @return \Illuminate\Http\JsonResponse
      */
-    function errorResponse($message, int $code = 400, $data = [])
+    function errorResponse($error, $code = 400, $data = [])
     {
-        $code = $code == 0 ? 400 : $code;
+        if ($code == 'HY000') {
+            $error = "Something went wrong";
+        } elseif (is_string($error) && strpos($error, 'SQLSTATE[') !== false && app()->isProduction()) {
+            // Log the exception
+            \Log::error("Database Error $code: $error");
+
+            $error = "A database error occurred. Please contact support.";
+        }
+
         $response = [
             'success' => false,
             'status' => $code,
-            'message' => $message,
-            'data' => $data
+            'message' => is_array($error) == TRUE ? $error : [$error],
+            'data' => [],
         ];
-        if ($code == 422) {
-            $response['data'] = $data;
-        }
 
-        $code = is_int($code) && $code != 0 ? $code : 500;
+        $code = is_int($code) && $code !== 0 ? $code : 500;
+
         return response()->json($response, $code);
     }
 }
+
 if (! function_exists('paginate')) {
     /**
      * @param $data
