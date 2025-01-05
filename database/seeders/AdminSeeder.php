@@ -15,15 +15,13 @@ class AdminSeeder extends Seeder
     {
         $data = [
             'name' => 'Admin',
-            'email' => config('settings.admin.email'),
+            'email' => config('settings.admin.email', 'admin@admin.com'),
             'password' => config('settings.admin.password'),
-            'is_active' => true
+            'is_active' => true,
         ];
 
-        $model = new Admin();
-
         // Create super admin user
-        $superAdmin = $model->updateOrCreate(['email' => $data['email']], $data);
+        $superAdmin = Admin::create($data);
         $superAdmin->assignRole('super-admin');
     }
 }

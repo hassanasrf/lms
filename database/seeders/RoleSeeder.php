@@ -18,6 +18,7 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         $this->createRoles();
+        // $this->assignPermissionsToRoles();
     }
 
     /**
@@ -25,7 +26,20 @@ class RoleSeeder extends Seeder
      */
     private function createRoles(): void
     {
-        Role::updateOrCreate(['name' => 'super-admin']);
-        Role::updateOrCreate(['name' => 'client-admin']); // company admin
+        Role::updateOrCreate(['name' => 'super-admin', 'guard_name' => 'admin']);
+        Role::updateOrCreate(['name' => 'client-admin', 'guard_name' => 'client']); // company admin
+    }
+
+    /**
+     * Assign permissions to roles.
+     */
+    private function assignPermissionsToRoles(): void
+    {
+        $developerRole = Role::findByName('client-admin');
+        $developerPermissions = [
+            'permission-create'
+        ];
+
+        $developerRole->givePermissionTo($developerPermissions);
     }
 }
