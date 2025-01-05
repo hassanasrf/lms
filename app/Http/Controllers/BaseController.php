@@ -18,7 +18,7 @@ class BaseController extends Controller
     {
         if ($role == null) {
 
-            if (request()->segment(2) && in_array(request()->segment(2), ['admin', 'client'])) {
+            if (request()->segment(2) && in_array(request()->segment(2), ['admin'])) {
                 $role = request()->segment(2);
             }
 

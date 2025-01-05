@@ -44,14 +44,6 @@ return [
             'driver' => 'jwt',
             'provider' => 'users',
         ],
-        'admin' => [
-            'driver' => 'jwt',
-            'provider' => 'admins',
-        ],
-        'client' => [
-            'driver' => 'jwt',
-            'provider' => 'clients',
-        ],
     ],
 
     /*
@@ -75,14 +67,6 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
-        ],
-        'admins' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Admin::class,
-        ],
-        'clients' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Client::class,
         ],
     ],
 
@@ -109,18 +93,6 @@ return [
         'users' => [
             'provider' => 'users',
             'table' => 'password_reset_tokens',
-            'expire' => 60,
-            'throttle' => 60,
-        ],
-        'admins' => [
-            'provider' => 'admins',
-            'table' => 'password_resets',
-            'expire' => 60,
-            'throttle' => 60,
-        ],
-        'clients' => [
-            'provider' => 'admins',
-            'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
         ],

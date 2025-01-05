@@ -3,6 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Traits\HasRoles;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasUuids, HasFactory, Notifiable, SoftDeletes;
+    use HasFactory, Notifiable, HasRoles, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -24,6 +27,13 @@ class User extends Authenticatable implements JWTSubject
         'email',
         'password',
     ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['role_name','permission'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -44,6 +54,27 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Get the role attribute for the user.
+     *
+     * @return string
+     */
+    public function getRoleNameAttribute()
+    {
+        return $this->roles->pluck('name') ?? null;
+    }
+
+    /**
+     * Get the permission attribute for the user.
+     *
+     * @return string
+     */
+    public function getPermissionAttribute()
+    {
+        return $this->getAllPermissions()->pluck('name') ?? [];
+    }
+
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
