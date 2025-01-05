@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
-use Exception;
 use Illuminate\Http\Request;
+use App\Http\Requests\RoleRequest;
+use Spatie\Permission\Models\Role;
 use App\Http\Controllers\BaseController;
-use App\Http\Requests\PermissionRequest;
 use Spatie\Permission\Models\Permission;
-use App\Repository\Contracts\PermissionRepositoryInterface;
+use App\Repository\Contracts\RoleRepositoryInterface;
 
-class PermissionController extends BaseController
+class RoleController extends BaseController
 {
     public function __construct(
-        public readonly PermissionRepositoryInterface $repo)
+        public readonly RoleRepositoryInterface $repo)
     {
-        // $this->middleware('permission:permission-read', ['only' => ['show']]);
-        $this->middleware('permission:permission-create', ['only' => 'store']);
-        $this->middleware('permission:permission-update', ['only' => 'update']);
-        $this->middleware('permission:permission-delete', ['only' => 'destroy']);
+        // $this->middleware('permission:role-read', ['only' => ['index','show']]);
+        $this->middleware('permission:role-create', ['only' => 'store']);
+        $this->middleware('permission:role-update', ['only' => 'update']);
+        $this->middleware('permission:role-delete', ['only' => 'destroy']);
     }
 
     /**
@@ -28,7 +28,8 @@ class PermissionController extends BaseController
         try {
             $paginate = $request->boolean('paginate', true);
             $perPage = (int) $request->get('perPage', 10);
-            $response = $this->repo->all(paginate: $paginate, perPage: $perPage);
+            $relations = ['permissions','users'];
+            $response = $this->repo->all(relations: $relations, paginate: $paginate, perPage: $perPage);
             return successResponse($response, 'Record fetched successfully.', $paginate);
         } catch (Exception $e) {
             return errorResponse($e->getMessage(),$e->getCode());
@@ -38,10 +39,10 @@ class PermissionController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PermissionRequest $request)
+    public function store(RoleRequest $request)
     {
         try {
-            $response = $this->repo->create($request->validated());
+            $response = $this->repo->createRole($request->validated());
             return successResponse($response, 'Record created successfully.');
         } catch (Exception $e) {
             return errorResponse($e->getMessage(),$e->getCode());
@@ -51,10 +52,11 @@ class PermissionController extends BaseController
     /**
      * Display the specified resource.
      */
-    public function show(Permission $permission)
+    public function show(Role $role)
     {
         try {
-            $response = $this->repo->showModel($permission);
+            $relations = ['permissions'];
+            $response = $this->repo->showModel($role, $relations);
             return successResponse($response, 'Record fetched successfully.');
         } catch (Exception $e) {
             return errorResponse($e->getMessage(),$e->getCode());
@@ -64,12 +66,11 @@ class PermissionController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(PermissionRequest $request, Permission $permission)
+    public function update(RoleRequest $request, Role $role)
     {
-        // TODO
         try {
             $data = $request->validated();
-            $response = $this->repo->updateModel($permission, $data);
+            $response = $this->repo->updateRole($role, $data);
             return successResponse($response, 'Record updated successfully.');
         } catch (Exception $e) {
             return errorResponse($e->getMessage(),$e->getCode());
@@ -79,10 +80,10 @@ class PermissionController extends BaseController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Permission $permission)
+    public function destroy(Role $role)
     {
         try {
-            $this->repo->deleteByModel($permission);
+            $this->repo->deleteByModel($role);
             return successResponse(true, 'Record deleted successfully.');
         } catch (Exception $e) {
             return errorResponse($e->getMessage(),$e->getCode());

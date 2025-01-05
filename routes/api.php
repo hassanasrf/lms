@@ -15,8 +15,30 @@ use App\Http\Controllers\Api\Admin\PermissionController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::get('/permissions', [PermissionController::class, 'index'])->name('permissions.index');
+
+Route::group([
+    'namespace' => 'Api',
+], function () {
+
+    /* Auth Routes */
+    Route::post('login', 'AuthController@login')->name('login');
+
+    Route::group([
+        'middleware' => ['auth:api'],
+        'namespace' => 'Admin'
+    ], function () {
+        Route::post('logout', 'AuthController@logout')->name('logout');
+        Route::get('profile', 'AuthController@getProfile')->name('profile');
+
+        Route::apiResource('roles', 'RoleController');
+        Route::apiResource('permissions', 'PermissionController')->except(['index']);
+
+        /**
+         * User Routes
+         */
+        Route::apiResource('users', 'UserController');
+
+    });
+
+});

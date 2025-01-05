@@ -26,7 +26,7 @@ Route::group([
     // Route::post('register', 'AuthController@register')->name('register');
 
     Route::group([
-        'middleware' => ['auth:client']
+        'middleware' => ['auth:api']
     ], function () {
 
         // Route::post('logout', 'AuthController@logout')->name('logout');
