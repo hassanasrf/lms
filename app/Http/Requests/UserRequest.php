@@ -45,7 +45,7 @@ class UserRequest extends FormRequest
             'email' => 'required|email|unique:users,email,' . $model->id,
             'password' => 'sometimes|min:6',
             'is_active' => 'sometimes|boolean',
-            'role' => 'sometimes|nullable',
+            'role' => 'required|exists:roles,name',
             '_method' => 'required|in:put',
         ];
     }

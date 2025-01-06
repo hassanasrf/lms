@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Company;
 use App\Models\City;
 
 class CitySeeder extends Seeder
@@ -13,6 +14,7 @@ class CitySeeder extends Seeder
      */
     public function run(): void
     {
+        $companyId = Company::first()->id ?? 1;
         $cities = [
             ['name' => 'Karachi', 'country_id' => 1, 'code' => '101'],
             ['name' => 'Lahore', 'country_id' => 1, 'code' => '102'],
@@ -21,6 +23,7 @@ class CitySeeder extends Seeder
         ];
 
         foreach ($cities as $city) {
+            $city['company_id'] = $companyId;
             City::create($city);
         }
     }
