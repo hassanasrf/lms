@@ -18,7 +18,7 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         $this->createRoles();
-        // $this->assignPermissionsToRoles();
+        $this->assignPermissionsToRoles();
     }
 
     /**
@@ -35,8 +35,13 @@ class RoleSeeder extends Seeder
      */
     private function assignPermissionsToRoles(): void
     {
-
         $admin = Role::findByName('super-admin');
-        $adminRole->givePermissionTo(Permission::all());
+        $admin->givePermissionTo(Permission::all());
+
+        $client = Role::findByName('client-admin');
+        $permissions = [
+            'company-read', 'company-create', 'company-update', 'company-delete'
+        ];
+        $client->givePermissionTo($permissions);
     }
 }
