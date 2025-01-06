@@ -7,6 +7,7 @@ use App\Helpers\Constant;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\LoginRequest;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Controllers\BaseController;
@@ -39,8 +40,10 @@ class AuthController extends BaseController
 
             // Prepare success response
             $success = [
-                'token' => $token,
-                'user' => $this->user,
+                'access_token' => $token,
+                'token_type' => 'bearer',
+                'expires_in' => auth()->factory()->getTTL(),
+                'user' => UserResource::make(auth()->user()),
             ];
 
             return successResponse($success, Constant::MESSAGE_LOGIN);
