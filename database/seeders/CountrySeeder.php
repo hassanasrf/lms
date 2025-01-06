@@ -22,7 +22,7 @@ class CountrySeeder extends Seeder
         ];
 
         foreach ($countries as $country) {
-            $country['company_id'] = $companyId;
+            // $country['company_id'] = $companyId;
             Country::create($country);
         }
     }
