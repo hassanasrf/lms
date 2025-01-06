@@ -23,7 +23,7 @@ class CitySeeder extends Seeder
         ];
 
         foreach ($cities as $city) {
-            $city['company_id'] = $companyId;
+            // $city['company_id'] = $companyId;
             City::create($city);
         }
     }

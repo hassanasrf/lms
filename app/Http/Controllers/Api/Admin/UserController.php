@@ -28,7 +28,7 @@ class UserController extends BaseController
         try {
             $paginate = $request->boolean('paginate', true);
             $perPage = (int) $request->get('perPage', 10);
-            $relations = [];
+            $relations = ['company'];
             $response = $this->repo->all(relations: $relations, paginate: $paginate, perPage: $perPage);
             return successResponse($response, Constant::MESSAGE_FETCHED, $paginate);
         } catch (Exception $e) {
@@ -42,7 +42,7 @@ class UserController extends BaseController
     public function store(UserRequest $request)
     {
         try {
-            $response = $this->repo->create($request->validated());
+            $response = $this->repo->createUser($request->validated());
             return successResponse($response, Constant::MESSAGE_CREATED);
         } catch (Exception $e) {
             return errorResponse($e->getMessage(),$e->getCode());
@@ -55,7 +55,7 @@ class UserController extends BaseController
     public function show(User $user)
     {
         try {
-            $relations = [];
+            $relations = ['company'];
             $response = $this->repo->showModel($user, $relations);
             return successResponse($response, Constant::MESSAGE_FETCHED);
         } catch (Exception $e) {

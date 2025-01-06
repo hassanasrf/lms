@@ -32,7 +32,7 @@ class TypeSeeder extends Seeder
         ];
 
         foreach ($types as $type) {
-            $type['company_id'] = $companyId;
+            // $type['company_id'] = $companyId;
             Type::create($type);
         }
     }

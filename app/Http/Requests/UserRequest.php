@@ -34,6 +34,7 @@ class UserRequest extends FormRequest
             'password' => 'required|string|min:6',
             'is_active' => 'sometimes|boolean',
             'role' => 'required|exists:roles,name',
+            'company_id' => 'sometimes|nullable|exists:companies,id',
         ];
     }
 
@@ -46,6 +47,7 @@ class UserRequest extends FormRequest
             'password' => 'sometimes|min:6',
             'is_active' => 'sometimes|boolean',
             'role' => 'required|exists:roles,name',
+            'company_id' => 'sometimes|nullable|exists:companies,id',
             '_method' => 'required|in:put',
         ];
     }
