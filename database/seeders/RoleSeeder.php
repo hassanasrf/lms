@@ -40,7 +40,7 @@ class RoleSeeder extends Seeder
 
         $client = Role::findByName('client-admin');
         $permissions = [
-            'company-read', 'company-create', 'company-update', 'company-delete'
+            //
         ];
         $client->givePermissionTo($permissions);
     }

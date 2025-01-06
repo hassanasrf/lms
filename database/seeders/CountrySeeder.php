@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Company;
 use App\Models\Country;
 
 class CountrySeeder extends Seeder
@@ -13,6 +14,7 @@ class CountrySeeder extends Seeder
      */
     public function run(): void
     {
+        $companyId = Company::first()->id ?? 1;
         $countries = [
             ['name' => 'Pakistan', 'code' => 'PK'],
             ['name' => 'Bahrain', 'code' => 'BH'],
@@ -20,6 +22,7 @@ class CountrySeeder extends Seeder
         ];
 
         foreach ($countries as $country) {
+            $country['company_id'] = $companyId;
             Country::create($country);
         }
     }
