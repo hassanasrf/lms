@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Admin;
 use App\Helpers\Constant;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -11,12 +10,6 @@ use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Controllers\BaseController;
-
-/**
- * @group Auth
- *
- * APIs for managing users
- */
 
 class AuthController extends BaseController
 {
@@ -54,32 +47,14 @@ class AuthController extends BaseController
 
     /**
      * Get Profile
-     *
      * @authenticated
-     * @response {
-     *     "success": true,
-     *     "status": 200,
-     *     "message": [
-     *         "Record fetched successfully."
-     *     ],
-     *     "data": {
-     *         "id": "98af6b90-6047-4577-9343-d584370e6ee6",
-     *         "name": "Test",
-     *         "email": "dev@admin.com",
-     *         "status": 1,
-     *         "created_at": "2023-03-14T11:05:13.000000Z",
-     *         "updated_at": "2023-03-14T11:05:13.000000Z",
-     *         "deleted_at": null
-     *     }
-     * }
     */
     public function getProfile(): JsonResponse
     {
         try{
-            $user = auth()->user();
-            return successResponse($user, Constant::MESSAGE_FETCHED);
+            return successResponse(UserResource::make(auth()->user()), Constant::MESSAGE_FETCHED);
         }catch (Exception $e){
-            return errorResponse($e->getMessage(),$e->getCode());
+            return errorResponse($e->getMessage(), $e->getCode());
         }
     }
 

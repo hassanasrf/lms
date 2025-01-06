@@ -42,7 +42,7 @@ Route::group([
             /**
              * User Routes
              */
-            // Route::apiResource('users', 'UserController');
+            Route::apiResource('users', 'UserController');
 
         });
     });
