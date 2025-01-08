@@ -4,11 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
-class Company extends Model
+class TaggingPoint extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -20,7 +19,7 @@ class Company extends Model
     protected $guarded = [];
 
     /**
-     * Get the city associated with the company.
+     * Get the city that owns the TaggingPoint.
      */
     public function city(): BelongsTo
     {
@@ -28,26 +27,10 @@ class Company extends Model
     }
 
     /**
-     * Get the country associated with the company.
+     * Get the country that owns the TaggingPoint.
      */
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class);
-    }
-
-    /**
-     * Get the type associated with the company.
-     */
-    public function type(): BelongsTo
-    {
-        return $this->belongsTo(Type::class);
-    }
-
-    /**
-     * Get the users associated with the company.
-     */
-    public function users(): HasMany
-    {
-        return $this->hasMany(User::class);
     }
 }

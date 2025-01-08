@@ -24,10 +24,9 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
     public function createUser(array $data): UserResource
     {
-        $user = $this->create(Arr::except($data, ['role','company_id']));
-        $role = isset($data['role']) ? $data['role'] : [];
-        $user->company()->associate($data['company_id']);
-        $user->syncRoles($role);
+        $user = $this->create(Arr::except($data, ['role_id']));
+        $roleId = isset($data['role_id']) ? $data['role_id'] : [];
+        $user->syncRoles($roleId);
         return $this->resource::make($user);
     }
 
