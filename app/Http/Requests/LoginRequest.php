@@ -23,10 +23,17 @@ class LoginRequest extends BaseRequest
      */
     public function rules(Route $route): array
     {
-        return [
-            'email' => 'required|email|exists:users,email',
+        $prefix = $route->getPrefix();
+        $isAdminRoute = Str::startsWith($prefix, 'api/admin');
+
+        $rules = [
+            'email' => 'required|email',
             'password' => 'required',
         ];
+
+        $rules['email'] .= $isAdminRoute ? '|exists:admins,email' : '|exists:users,email';
+
+        return $rules;
     }
 
     /**

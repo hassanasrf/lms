@@ -16,30 +16,34 @@ class AuthController extends BaseController
     public function login(LoginRequest $request): JsonResponse
     {
         try {
+            // Override segment(2) if it is 'company' to 'api'
+            $guard = request()->segment(2) == 'company' ? 'api' : request()->segment(2);
+
             $credentials = $request->only(['email', 'password']);
 
-            // Attempt authentication using JWT
-            if (!$token = auth()->attempt($credentials)) {
+            if ($token = $this->guard()->attempt($credentials)) {
+                $this->user = $this->guard()->user();
+
+                if (!$token = auth()->guard($guard)->attempt($credentials)) {
+                    return errorResponse(Constant::MESSAGE_UNAUTHORIZED, 401);
+                }
+
+                if (!$this->user->is_active) {
+                   return errorResponse(Constant::MESSAGE_DEACTIVATED, 403);
+                }
+
+                // Prepare success response
+                $success = [
+                    'access_token' => $token,
+                    'token_type' => 'bearer',
+                    'expires_in' => auth()->factory()->getTTL(),
+                    'user' => UserResource::make($this->user),
+                ];
+
+                return successResponse($success, Constant::MESSAGE_LOGIN);
+            } else {
                 return errorResponse(Constant::MESSAGE_INVALID_CREDENTIALS, 422);
             }
-
-            // Get the authenticated user
-            $this->user = auth()->user();
-
-            // Check if the user is active
-            if (!$this->user->is_active) {
-                return errorResponse(Constant::MESSAGE_DEACTIVATED, 403);
-            }
-
-            // Prepare success response
-            $success = [
-                'access_token' => $token,
-                'token_type' => 'bearer',
-                'expires_in' => auth()->factory()->getTTL(),
-                'user' => UserResource::make(auth()->user()),
-            ];
-
-            return successResponse($success, Constant::MESSAGE_LOGIN);
         } catch (Exception $e) {
             return errorResponse($e->getMessage(), $e->getCode());
         }

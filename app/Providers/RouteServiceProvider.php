@@ -39,6 +39,8 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapApiRoutes();
 
+        $this->mapCompanyRoutes();
+
         // $this->forceHttps();
     }
 
@@ -77,10 +79,25 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
-        Route::prefix('api')
+        Route::prefix('api/admin')
              ->middleware('api')
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
+    }
+
+    /**
+     * Define the "company" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapCompanyRoutes()
+    {
+        Route::prefix('api/company')
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/company_routes.php'));
     }
 
 

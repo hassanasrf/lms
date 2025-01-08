@@ -18,11 +18,16 @@ class BaseController extends Controller
     {
         if ($role == null) {
 
-            if (request()->segment(2) && in_array(request()->segment(2), ['admin'])) {
+            if (request()->segment(2) && in_array(request()->segment(2), ['admin', 'company'])) {
                 $role = request()->segment(2);
             }
 
             $role = request()->segment(2);
+        }
+
+        // Check if role is 'company', override to 'api'
+        if ($role == 'company') {
+            $role = 'api';
         }
 
         return Auth::guard($role);
