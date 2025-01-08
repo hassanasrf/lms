@@ -29,6 +29,7 @@ class TypeSeeder extends Seeder
             ['name' => 'Shipping Agency'],
             ['name' => 'Forwarder'],
             ['name' => 'Warehouse'],
+            ['name' => 'Etc'],
         ];
 
         foreach ($types as $type) {
