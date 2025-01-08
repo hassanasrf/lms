@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             TypeSeeder::class,
             CompanySeeder::class,
             AdminSeeder::class,
+            TaggingPointSeeder::class,
         ]);
     }
 }

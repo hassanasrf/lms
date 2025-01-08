@@ -33,8 +33,8 @@ class UserRequest extends FormRequest
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6',
             'is_active' => 'sometimes|boolean',
-            'role' => 'required|exists:roles,name',
-            'company_id' => 'sometimes|nullable|exists:companies,id',
+            'role_id' => 'required|exists:roles,id',
+            'company_id' => 'required|exists:companies,id',
         ];
     }
 
@@ -46,8 +46,8 @@ class UserRequest extends FormRequest
             'email' => 'required|email|unique:users,email,' . $model->id,
             'password' => 'sometimes|min:6',
             'is_active' => 'sometimes|boolean',
-            'role' => 'required|exists:roles,name',
-            'company_id' => 'sometimes|nullable|exists:companies,id',
+            'role_id' => 'required|exists:roles,id',
+            'company_id' => 'required|exists:companies,id',
             '_method' => 'required|in:put',
         ];
     }
