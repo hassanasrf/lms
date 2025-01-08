@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             CitySeeder::class,
             TypeSeeder::class,
             CompanySeeder::class,
+            AdminSeeder::class,
         ]);
     }
 }
