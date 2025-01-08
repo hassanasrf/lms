@@ -6,10 +6,10 @@ use App\Helpers\Constant;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\LoginRequest;
-use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Controllers\BaseController;
+use App\Http\Resources\UserProfileResource;
 
 class AuthController extends BaseController
 {
@@ -37,7 +37,7 @@ class AuthController extends BaseController
                     'access_token' => $token,
                     'token_type' => 'bearer',
                     'expires_in' => auth()->factory()->getTTL(),
-                    'user' => UserResource::make($this->user),
+                    'user' => UserProfileResource::make($this->user),
                 ];
 
                 return successResponse($success, Constant::MESSAGE_LOGIN);
@@ -56,7 +56,7 @@ class AuthController extends BaseController
     public function getProfile(): JsonResponse
     {
         try{
-            return successResponse(UserResource::make(auth()->user()), Constant::MESSAGE_FETCHED);
+            return successResponse(UserProfileResource::make(auth()->user()), Constant::MESSAGE_FETCHED);
         }catch (Exception $e){
             return errorResponse($e->getMessage(), $e->getCode());
         }
