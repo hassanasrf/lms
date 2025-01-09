@@ -26,8 +26,8 @@ class RoleSeeder extends Seeder
      */
     private function createRoles(): void
     {
-        Role::updateOrCreate(['name' => 'super-admin']);
-        Role::updateOrCreate(['name' => 'client-admin']);
+        Role::create(['name' => 'super-admin', 'guard_name' => 'api']);
+        // Role::create(['name' => 'client-admin', 'guard_name' => 'api']);
     }
 
     /**
@@ -38,10 +38,10 @@ class RoleSeeder extends Seeder
         $admin = Role::findByName('super-admin');
         $admin->givePermissionTo(Permission::all());
 
-        $client = Role::findByName('client-admin');
-        $permissions = [
-            //
-        ];
-        $client->givePermissionTo($permissions);
+        // $client = Role::findByName('client-admin');
+        // $permissions = [
+        //     //
+        // ];
+        // $client->givePermissionTo($permissions);
     }
 }
