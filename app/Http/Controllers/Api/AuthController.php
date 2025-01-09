@@ -16,34 +16,28 @@ class AuthController extends BaseController
     public function login(LoginRequest $request): JsonResponse
     {
         try {
-            // Override segment(2) if it is 'company' to 'api'
-            $guard = request()->segment(2) == 'company' ? 'api' : request()->segment(2);
-
+            $guard = request()->segment(2) === 'company' ? 'api' : request()->segment(2);
             $credentials = $request->only(['email', 'password']);
 
-            if ($token = $this->guard()->attempt($credentials)) {
-                $this->user = $this->guard()->user();
-
-                if (!$token = auth()->guard($guard)->attempt($credentials)) {
-                    return errorResponse(Constant::MESSAGE_UNAUTHORIZED, 401);
-                }
-
-                if (!$this->user->is_active) {
-                   return errorResponse(Constant::MESSAGE_DEACTIVATED, 403);
-                }
-
-                // Prepare success response
-                $success = [
-                    'access_token' => $token,
-                    'token_type' => 'bearer',
-                    'expires_in' => auth()->factory()->getTTL(),
-                    'user' => UserProfileResource::make($this->user),
-                ];
-
-                return successResponse($success, Constant::MESSAGE_LOGIN);
-            } else {
+            if (!$token = auth()->guard($guard)->attempt($credentials)) {
                 return errorResponse(Constant::MESSAGE_INVALID_CREDENTIALS, 422);
             }
+
+            $user = auth()->guard($guard)->user();
+
+            if (!$user->is_active) {
+                return errorResponse(Constant::MESSAGE_DEACTIVATED, 403);
+            }
+
+            $success = [
+                'access_token' => $token,
+                'token_type' => 'bearer',
+                'expires_in' => auth()->factory()->getTTL(),
+                'user' => new UserProfileResource($user),
+            ];
+
+            return successResponse($success, Constant::MESSAGE_LOGIN);
+
         } catch (Exception $e) {
             return errorResponse($e->getMessage(), $e->getCode());
         }
