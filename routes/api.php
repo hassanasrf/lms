@@ -37,6 +37,7 @@ Route::group([
 
             Route::apiResource('users', 'UserController');
             Route::apiResource('roles', 'RoleController');
+            Route::apiResource('customers', 'CustomerController');
             Route::apiResource('companies', 'CompanyController');
             Route::apiResource('permissions', 'PermissionController')->except(['index']);
         });
