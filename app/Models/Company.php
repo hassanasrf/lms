@@ -68,7 +68,12 @@ class Company extends Model
                 ]
             );
 
-            $permissions = Permission::all();
+            // Get all permissions, excluding the specific ones
+            $permissions = Permission::whereNotIn('name', [
+                'company-read','company-create','company-update','company-delete'
+            ])->get();
+
+            // Assign all permissions except the excluded ones to the role
             $role->syncPermissions($permissions);
         });
     }

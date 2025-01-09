@@ -15,10 +15,12 @@ class CompanyController extends BaseController
     public function __construct(
         public readonly CompanyRepositoryInterface $repo)
     {
-        $this->middleware('permission:company-read', ['only' => ['index','show']]);
-        $this->middleware('permission:company-create', ['only' => 'store']);
-        $this->middleware('permission:company-update', ['only' => 'update']);
-        $this->middleware('permission:company-delete', ['only' => 'destroy']);
+        if (!auth()->guard('admin')->check()) {
+            $this->middleware('permission:company-read', ['only' => ['index','show']]);
+            $this->middleware('permission:company-create', ['only' => 'store']);
+            $this->middleware('permission:company-update', ['only' => 'update']);
+            $this->middleware('permission:company-delete', ['only' => 'destroy']);
+        }
     }
 
     /**
