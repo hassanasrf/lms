@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Models\Role;
 
 class Company extends Model
 {
@@ -49,5 +51,25 @@ class Company extends Model
     public function users(): HasMany
     {
         return $this->hasMany(User::class);
+    }
+
+    /**
+     * Auto create role and assign all available permissions when a company is created.
+     */
+    protected static function booted()
+    {
+        static::created(function ($company) {
+            // Create role for this company
+            $role = Role::firstOrCreate(
+                [
+                    'name' => 'super-admin',
+                    'guard_name' => 'api',
+                    'company_id' => $company->id,
+                ]
+            );
+
+            $permissions = Permission::all();
+            $role->syncPermissions($permissions);
+        });
     }
 }
