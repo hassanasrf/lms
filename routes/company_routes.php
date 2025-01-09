@@ -9,9 +9,9 @@ use App\Http\Controllers\Api\Admin\PermissionController;
 | Company API Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register admin API routes for your application. These
+| Here is where you can register company API routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "admin" middleware group. Enjoy building your API!
+| is assigned the "company" middleware group. Enjoy building your API!
 |
 */
 
@@ -35,14 +35,9 @@ Route::group([
             'namespace' => 'Admin'
         ], function () {
 
-            Route::apiResource('roles', 'RoleController');
-            Route::apiResource('companies', 'CompanyController');
-            Route::apiResource('permissions', 'PermissionController')->except(['index']);
-
-            /**
-             * User Routes
-             */
             Route::apiResource('users', 'UserController');
+            Route::apiResource('roles', 'RoleController');
+            Route::apiResource('permissions', 'PermissionController')->except(['index']);
 
         });
     });

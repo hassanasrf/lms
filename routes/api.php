@@ -35,15 +35,10 @@ Route::group([
             'namespace' => 'Admin'
         ], function () {
 
+            Route::apiResource('users', 'UserController');
             Route::apiResource('roles', 'RoleController');
             Route::apiResource('companies', 'CompanyController');
             Route::apiResource('permissions', 'PermissionController')->except(['index']);
-
-            /**
-             * User Routes
-             */
-            Route::apiResource('users', 'UserController');
-
         });
     });
 
