@@ -16,8 +16,8 @@ class UserSeeder extends Seeder
     {
         $admin = [
             'id' => 1,
-            'name' => 'Admin',
-            'email' => config('settings.admin.email', 'admin@admin.com'),
+            'name' => 'User',
+            'email' => 'user@user.com',
             'password' => config('settings.admin.password'),
             'is_active' => true,
         ];
