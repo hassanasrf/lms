@@ -17,6 +17,7 @@ class AgentSeeder extends Seeder
         $companyId = Company::first()->id ?? 1;
         $agents = [
             [
+                'shipping_line_id' => 1,
                 'name' => 'Global Shipping Co.',
                 'address' => '123 Main Street, Business Bay',
                 'city_id' => 1, // Assume City with ID 1 exists
@@ -27,6 +28,7 @@ class AgentSeeder extends Seeder
                 'ports' => json_encode(['Port of Karachi', 'Port of Dubai']),
             ],
             [
+                'shipping_line_id' => 1,
                 'name' => 'Oceanic Freight Ltd.',
                 'address' => '45 Marine Avenue, Downtown',
                 'city_id' => 2, // Assume City with ID 2 exists
