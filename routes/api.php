@@ -41,6 +41,7 @@ Route::group([
             Route::apiResource('companies', 'CompanyController');
             Route::apiResource('countries', 'CountryController');
             Route::apiResource('customers', 'CustomerController');
+            Route::apiResource('currencies', 'CurrencyController');
             Route::apiResource('commodities', 'CommodityController');
             Route::apiResource('permissions', 'PermissionController')->except(['index']);
         });

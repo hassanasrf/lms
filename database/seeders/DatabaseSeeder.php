@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
             TaggingPointSeeder::class,
             AdminSeeder::class,
             UserSeeder::class,
+            CurrencySeeder::class,
+            CommoditySeeder::class,
         ]);
     }
 }

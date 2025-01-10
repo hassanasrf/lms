@@ -2,7 +2,7 @@
 
 namespace App\Repository\Eloquent;
 
-use App\Models\City;
+use App\Models\Commodity;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Resources\CommodityResource;
 use App\Repository\Contracts\CommodityRepositoryInterface;

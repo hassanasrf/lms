@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('undg_code')->nullable();
             $table->string('dg_class')->nullable();
             $table->string('dg_chapter')->nullable();
-            $table->timestamp('updated_date')->nullable();
 
             // Import
             $table->decimal('cargo_value', 15, 2)->nullable();
