@@ -25,7 +25,7 @@ Route::group([
     Route::post('login', 'AuthController@login')->name('login');
 
     Route::group([
-        'middleware' => ['auth:admin']
+        'middleware' => ['auth:admin','check.guard:admin']
     ], function () {
 
         Route::post('logout', 'AuthController@logout')->name('logout');

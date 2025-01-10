@@ -19,7 +19,7 @@ class AuthController extends BaseController
             $guard = request()->segment(2) === 'company' ? 'api' : request()->segment(2);
             $credentials = $request->only(['email', 'password']);
 
-            if (!$token = auth()->guard($guard)->attempt($credentials)) {
+            if (!$token = auth($guard)->claims(['guard' => $guard])->attempt($credentials)) {
                 return errorResponse(Constant::MESSAGE_INVALID_CREDENTIALS, 422);
             }
 
