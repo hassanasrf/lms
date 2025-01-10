@@ -40,6 +40,7 @@ Route::group([
             Route::apiResource('cities', 'CityController');
             Route::apiResource('countries', 'CountryController');
             Route::apiResource('customers', 'CustomerController');
+            Route::apiResource('commodities', 'CommodityController');
             Route::apiResource('permissions', 'PermissionController')->except(['index']);
 
         });

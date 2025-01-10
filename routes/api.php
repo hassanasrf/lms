@@ -38,9 +38,10 @@ Route::group([
             Route::apiResource('users', 'UserController');
             Route::apiResource('roles', 'RoleController');
             Route::apiResource('cities', 'CityController');
+            Route::apiResource('companies', 'CompanyController');
             Route::apiResource('countries', 'CountryController');
             Route::apiResource('customers', 'CustomerController');
-            Route::apiResource('companies', 'CompanyController');
+            Route::apiResource('commodities', 'CommodityController');
             Route::apiResource('permissions', 'PermissionController')->except(['index']);
         });
     });
