@@ -17,6 +17,7 @@ class PermissionSeeder extends Seeder
             'user-read', 'user-create', 'user-update', 'user-delete',
             'city-read', 'city-create', 'city-update', 'city-delete',
             'role-read', 'role-create', 'role-update', 'role-delete',
+            'booking-read', 'booking-create', 'booking-update', 'booking-delete',
             'country-read', 'country-create', 'country-update', 'country-delete',
             'company-read', 'company-create', 'company-update', 'company-delete',
             'currency-read', 'currency-create', 'currency-update', 'currency-delete',
