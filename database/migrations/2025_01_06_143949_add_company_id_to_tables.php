@@ -12,15 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('countries', function (Blueprint $table) {
-            $table->foreignId('company_id')->nullable()->constrained('companies')->cascadeOnDelete()->after('id');
+            $table->foreignId('company_id')->nullable()->after('id')->constrained('companies')->cascadeOnDelete();
         });
 
         Schema::table('cities', function (Blueprint $table) {
-            $table->foreignId('company_id')->nullable()->constrained('companies')->cascadeOnDelete()->after('id');
+            $table->foreignId('company_id')->nullable()->after('id')->constrained('companies')->cascadeOnDelete();
         });
 
         Schema::table('types', function (Blueprint $table) {
-            $table->foreignId('company_id')->nullable()->constrained('companies')->cascadeOnDelete()->after('id');
+            $table->foreignId('company_id')->nullable()->after('id')->constrained('companies')->cascadeOnDelete();
         });
     }
 
