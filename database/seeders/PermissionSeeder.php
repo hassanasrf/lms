@@ -23,6 +23,7 @@ class PermissionSeeder extends Seeder
             'company-read', 'company-create', 'company-update', 'company-delete',
             'currency-read', 'currency-create', 'currency-update', 'currency-delete',
             'customer-read', 'customer-create', 'customer-update', 'customer-delete',
+            'shipping-read', 'shipping-create', 'shipping-update', 'shipping-delete',
             'commodity-read', 'commodity-create', 'commodity-update', 'commodity-delete',
             'permission-read', 'permission-create', 'permission-update', 'permission-delete',
         ];

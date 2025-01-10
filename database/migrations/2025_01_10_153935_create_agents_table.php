@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('agents', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->constrained('companies')->cascadeOnDelete();
+            $table->foreignId('shipping_line_id')->constrained('shipping_lines')->cascadeOnDelete();
             $table->string('name');
             $table->text('address')->nullable();
             $table->foreignId('city_id')->nullable()->constrained('cities')->nullOnDelete();
