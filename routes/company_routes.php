@@ -37,6 +37,8 @@ Route::group([
 
             Route::apiResource('users', 'UserController');
             Route::apiResource('roles', 'RoleController');
+            Route::apiResource('cities', 'CityController');
+            Route::apiResource('countries', 'CountryController');
             Route::apiResource('customers', 'CustomerController');
             Route::apiResource('permissions', 'PermissionController')->except(['index']);
 
