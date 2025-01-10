@@ -42,7 +42,7 @@ class CurrencyController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CityRequest $request)
+    public function store(CurrencyRequest $request)
     {
         try {
             $response = $this->repo->create($request->validated());
@@ -56,10 +56,10 @@ class CurrencyController extends BaseController
     /**
      * Display the specified resource.
      */
-    public function show(City $city)
+    public function show(Currency $currency)
     {
         try {
-            $response = $this->repo->showModel($city);
+            $response = $this->repo->showModel($currency);
             
             return successResponse($response, Constant::MESSAGE_FETCHED);
         } catch (Exception $e) {
@@ -70,12 +70,12 @@ class CurrencyController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(CityRequest $request, City $city)
+    public function update(CurrencyRequest $request, Currency $currency)
     {
         // TODO
         try {
             $data = $request->validated();
-            $response = $this->repo->updateModel($city, $data);
+            $response = $this->repo->updateModel($currency, $data);
 
             return successResponse($response, Constant::MESSAGE_UPDATED);
         } catch (Exception $e) {
@@ -86,10 +86,10 @@ class CurrencyController extends BaseController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(City $city)
+    public function destroy(Currency $currency)
     {
         try {
-            $this->repo->deleteByModel($city);
+            $this->repo->deleteByModel($currency);
 
             return successResponse(true, Constant::MESSAGE_DELETED);
         } catch (Exception $e) {
