@@ -24,7 +24,6 @@ class CityRequest extends BaseRequest
             'name' => ['required', 'string', 'max:255'/*, 'unique:cities,name'*/],
             'country_id' => ['required', 'exists:countries,id'],
             'code' => ['required', 'string', 'max:10'/*, 'unique:cities,code'*/],
-            'company_id' => ['nullable', 'exists:companies,id'],
         ];
     }
 
@@ -40,7 +39,6 @@ class CityRequest extends BaseRequest
             'country_id.exists' => 'The selected country ID does not exist.',
             'code.required' => 'The city code is required.',
             'code.unique' => 'This city code is already in use.',
-            'company_id.exists' => 'The selected company ID does not exist.',
         ];
     }
 }
