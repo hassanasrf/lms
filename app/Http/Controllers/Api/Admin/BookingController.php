@@ -15,12 +15,10 @@ class BookingController extends BaseController
     public function __construct(
         public readonly BookingRepositoryInterface $repo)
     {
-        if (!auth()->guard('admin')->check()) {
-            $this->middleware('permission:booking-read', ['only' => ['index','show']]);
-            $this->middleware('permission:booking-create', ['only' => 'store']);
-            $this->middleware('permission:booking-update', ['only' => 'update']);
-            $this->middleware('permission:booking-delete', ['only' => 'destroy']);
-        }
+        $this->middleware('permission:booking-read', ['only' => ['index','show']]);
+        $this->middleware('permission:booking-create', ['only' => 'store']);
+        $this->middleware('permission:booking-update', ['only' => 'update']);
+        $this->middleware('permission:booking-delete', ['only' => 'destroy']);
     }
 
     /**

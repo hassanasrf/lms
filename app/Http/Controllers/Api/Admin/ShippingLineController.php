@@ -15,12 +15,10 @@ class ShippingLineController extends BaseController
     public function __construct(
         public readonly ShippingLineRepositoryInterface $repo)
     {
-        if (!auth()->guard('admin')->check()) {
-            $this->middleware('permission:shipping-read', ['only' => ['index','show']]);
-            $this->middleware('permission:shipping-create', ['only' => 'store']);
-            $this->middleware('permission:shipping-update', ['only' => 'update']);
-            $this->middleware('permission:shipping-delete', ['only' => 'destroy']);
-        }
+        $this->middleware('permission:shipping-read', ['only' => ['index','show']]);
+        $this->middleware('permission:shipping-create', ['only' => 'store']);
+        $this->middleware('permission:shipping-update', ['only' => 'update']);
+        $this->middleware('permission:shipping-delete', ['only' => 'destroy']);
     }
 
     /**

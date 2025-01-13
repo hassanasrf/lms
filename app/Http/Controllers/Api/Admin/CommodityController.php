@@ -15,12 +15,10 @@ class CommodityController extends BaseController
     public function __construct(
         public readonly CommodityRepositoryInterface $repo)
     {
-        if (!auth()->guard('admin')->check()) {
-            $this->middleware('permission:commodity-read', ['only' => ['index','show']]);
-            $this->middleware('permission:commodity-create', ['only' => 'store']);
-            $this->middleware('permission:commodity-update', ['only' => 'update']);
-            $this->middleware('permission:commodity-delete', ['only' => 'destroy']);
-        }
+        $this->middleware('permission:commodity-read', ['only' => ['index','show']]);
+        $this->middleware('permission:commodity-create', ['only' => 'store']);
+        $this->middleware('permission:commodity-update', ['only' => 'update']);
+        $this->middleware('permission:commodity-delete', ['only' => 'destroy']);
     }
 
     /**

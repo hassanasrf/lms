@@ -15,12 +15,10 @@ class AgentController extends BaseController
     public function __construct(
         public readonly AgentRepositoryInterface $repo)
     {
-        if (!auth()->guard('admin')->check()) {
-            $this->middleware('permission:agent-read', ['only' => ['index','show']]);
-            $this->middleware('permission:agent-create', ['only' => 'store']);
-            $this->middleware('permission:agent-update', ['only' => 'update']);
-            $this->middleware('permission:agent-delete', ['only' => 'destroy']);
-        }
+        $this->middleware('permission:agent-read', ['only' => ['index','show']]);
+        $this->middleware('permission:agent-create', ['only' => 'store']);
+        $this->middleware('permission:agent-update', ['only' => 'update']);
+        $this->middleware('permission:agent-delete', ['only' => 'destroy']);
     }
 
     /**
