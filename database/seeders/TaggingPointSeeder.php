@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\TaggingPoint;
+use App\Models\Company;
 
 class TaggingPointSeeder extends Seeder
 {
@@ -13,6 +14,7 @@ class TaggingPointSeeder extends Seeder
      */
     public function run(): void
     {
+        $companyId = Company::first()->id ?? 1;
         $taggingPoints = [
             [
                 'city_id' => 1,
@@ -43,6 +45,7 @@ class TaggingPointSeeder extends Seeder
         ];
 
         foreach ($taggingPoints as $taggingPoint) {
+            $taggingPoint['company_id'] = $companyId;
             TaggingPoint::create($taggingPoint);
         }
     }
