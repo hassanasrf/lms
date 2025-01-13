@@ -41,6 +41,7 @@ class CompanyRequest extends BaseRequest
             'custom_code' => 'nullable|string|max:50',
             'telephone' => 'nullable|string|max:20',
             'type_id' => 'required|exists:types,id',
+            'logo' => 'sometimes|nullable',
         ];
     }
 
@@ -59,6 +60,7 @@ class CompanyRequest extends BaseRequest
             'custom_code' => 'nullable|string|max:50',
             'telephone' => 'nullable|string|max:20',
             'type_id' => 'required|exists:types,id',
+            'logo' => 'sometimes|nullable',
             '_method' => 'required|in:put',
         ];
     }
