@@ -15,10 +15,12 @@ class RoleController extends BaseController
     public function __construct(
         public readonly RoleRepositoryInterface $repo)
     {
-        // $this->middleware('permission:role-read', ['only' => ['index','show']]);
-        $this->middleware('permission:role-create', ['only' => 'store']);
-        $this->middleware('permission:role-update', ['only' => 'update']);
-        $this->middleware('permission:role-delete', ['only' => 'destroy']);
+        if (!auth()->guard('admin')->check()) {
+            // $this->middleware('permission:role-read', ['only' => ['index','show']]);
+            $this->middleware('permission:role-create', ['only' => 'store']);
+            $this->middleware('permission:role-update', ['only' => 'update']);
+            $this->middleware('permission:role-delete', ['only' => 'destroy']);
+        }
     }
 
     /**

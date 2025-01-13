@@ -14,10 +14,12 @@ class UserController extends BaseController
     public function __construct(
         public readonly UserRepositoryInterface $repo)
     {
-        $this->middleware('permission:user-read', ['only' => ['index','show']]);
-        $this->middleware('permission:user-create', ['only' => 'store']);
-        $this->middleware('permission:user-update', ['only' => 'update']);
-        $this->middleware('permission:user-delete', ['only' => 'destroy']);
+        if (!auth()->guard('admin')->check()) {
+            $this->middleware('permission:user-read', ['only' => ['index','show']]);
+            $this->middleware('permission:user-create', ['only' => 'store']);
+            $this->middleware('permission:user-update', ['only' => 'update']);
+            $this->middleware('permission:user-delete', ['only' => 'destroy']);
+        }
     }
 
     /**
