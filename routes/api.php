@@ -36,6 +36,7 @@ Route::group([
         ], function () {
 
             Route::apiResource('users', 'UserController');
+            Route::apiResource('roles', 'RoleController');
             Route::apiResource('cities', 'CityController');
             Route::apiResource('companies', 'CompanyController');
             Route::apiResource('countries', 'CountryController');
