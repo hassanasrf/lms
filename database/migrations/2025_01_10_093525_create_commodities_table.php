@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('commodities', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('company_id')->constrained('companies')->cascadeOnDelete();
             $table->string('name');
             $table->string('hs_code')->nullable();
             $table->enum('dangerous_cargo', ['Y', 'N'])->default('N');
