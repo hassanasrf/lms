@@ -2,7 +2,7 @@
 
 namespace App\Repository\Eloquent;
 
-use Spatie\Permission\Models\Role;
+use App\Models\Role;
 use App\Http\Resources\RoleResource;
 use Illuminate\Database\Eloquent\Model;
 use App\Repository\Contracts\RoleRepositoryInterface;

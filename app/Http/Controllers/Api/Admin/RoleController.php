@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
+use App\Models\Role;
 use App\Helpers\Constant;
 use Illuminate\Http\Request;
 use App\Http\Requests\RoleRequest;
-use Spatie\Permission\Models\Role;
 use App\Http\Controllers\BaseController;
 use Spatie\Permission\Models\Permission;
 use App\Repository\Contracts\RoleRepositoryInterface;
