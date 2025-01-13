@@ -30,11 +30,13 @@ class UserController extends BaseController
         try {
             $paginate = $request->boolean('paginate', true);
             $perPage = (int) $request->get('perPage', 10);
+            $where = !auth()->guard('admin')->check() ? [['company_id', auth()->user()->company_id]] : [];
             $relations = ['company'];
-            $response = $this->repo->all(relations: $relations, paginate: $paginate, perPage: $perPage);
+            $response = $this->repo->all(where: $where, relations: $relations, paginate: $paginate, perPage: $perPage);
+
             return successResponse($response, Constant::MESSAGE_FETCHED, $paginate);
-        } catch (Exception $e) {
-            return errorResponse($e->getMessage());
+        } catch (\Exception $e) {
+            return errorResponse($e->getMessage(),$e->getCode());
         }
     }
 
