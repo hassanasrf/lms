@@ -22,34 +22,53 @@ class UserRequest extends BaseRequest
      */
     public function rules(): array
     {
-        return []
-        +
-        ($this->isMethod('POST') ? $this->store() : $this->update());
+        return array_merge(
+            ($this->isMethod('POST') ? $this->store() : $this->update()),
+            $this->guardSpecificRules()
+        );
     }
 
-    protected function store()
+    /**
+     * Validation rules for creating a new user.
+     */
+    protected function store(): array
     {
         return [
-            'name' => 'required',
+            'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6',
             'is_active' => 'sometimes|boolean',
             'role_id' => 'required|exists:roles,id',
-            'company_id' => 'required|exists:companies,id',
         ];
     }
 
-    protected function update()
+    /**
+     * Validation rules for updating a user.
+     */
+    protected function update(): array
     {
         $model = request()->route('user');
         return [
-            'name' => 'required',
+            'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $model->id,
-            'password' => 'sometimes|min:6',
+            'password' => 'sometimes|string|min:6',
             'is_active' => 'sometimes|boolean',
             'role_id' => 'required|exists:roles,id',
-            'company_id' => 'required|exists:companies,id',
             '_method' => 'required|in:put',
         ];
+    }
+
+    /**
+     * Additional rules based on the authenticated guard.
+     */
+    protected function guardSpecificRules(): array
+    {
+        if (\Auth::guard('admin')->check()) {
+            return [
+                'company_id' => 'required|exists:companies,id',
+            ];
+        }
+
+        return [];
     }
 }

@@ -3,6 +3,7 @@ namespace App\Repository\Eloquent;
 
 use Exception;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Support\Arr;
 use App\Http\Resources\UserResource;
 use Illuminate\Database\Eloquent\Model;
@@ -26,7 +27,8 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     {
         $user = $this->create(Arr::except($data, ['role_id']));
         $roleId = isset($data['role_id']) ? $data['role_id'] : [];
-        $user->syncRoles($roleId);
+        $role = Role::findById($roleId, 'api');
+        $user->assignRole($role);
         return $this->resource::make($user);
     }
 

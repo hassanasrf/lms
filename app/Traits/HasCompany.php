@@ -8,21 +8,38 @@ use Illuminate\Support\Facades\Auth;
 trait HasCompany
 {
     /**
-     * Boot the HasCompany trait and add a global scope to filter by company_id.
+     * Determine if the current guard should bypass the company filter.
      *
-     * Automatically applies filtering and handles `company_id` assignment.
+     * @return bool
+     */
+    protected static function shouldBypassCompanyFilter(): bool
+    {
+        return Auth::guard('admin')->check(); // Adjust this as needed for other bypass conditions
+    }
+
+    /**
+     * Boot the HasCompany trait and add a global scope to filter by company_id.
      */
     protected static function bootHasCompany()
     {
-        // Add a global scope to filter records by the authenticated user's company_id
         static::addGlobalScope('company', function (Builder $builder) {
+            // Skip applying the global scope if the guard bypasses it
+            if (static::shouldBypassCompanyFilter()) {
+                return;
+            }
+
+            // Apply the global scope for all other guards
             if (Auth::check()) {
                 $builder->where('company_id', Auth::user()->company_id);
             }
         });
 
-        // Automatically set the company_id during record creation
         static::creating(function ($model) {
+            // Skip setting the company_id if the guard bypasses it
+            if (static::shouldBypassCompanyFilter()) {
+                return;
+            }
+
             if (Auth::check() && empty($model->company_id)) {
                 $model->company_id = Auth::user()->company_id;
             }
