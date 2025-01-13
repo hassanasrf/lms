@@ -29,9 +29,17 @@ class CustomerRequest extends BaseRequest
 
     protected function store()
     {
+        $companyId = auth()->user()->company_id;
+
         return [
-            'company_id' => 'required|exists:companies,id',
-            'country_id' => 'nullable|exists:countries,id',
+            'country_id' => [
+                'nullable',
+                'exists:countries,id,company_id,' . $companyId,
+            ],
+            'city_id' => [
+                'nullable',
+                'exists:cities,id,company_id,' . $companyId,
+            ],
             'city_id' => 'nullable|exists:cities,id',
             'name' => 'required|string|max:255',
             'address' => 'nullable|string|max:500',
@@ -47,10 +55,18 @@ class CustomerRequest extends BaseRequest
 
     protected function update()
     {
+        $companyId = auth()->user()->company_id;
         $model = request()->route('company');
+
         return [
-            'company_id' => 'required|exists:companies,id',
-            'country_id' => 'nullable|exists:countries,id',
+            'country_id' => [
+                'nullable',
+                'exists:countries,id,company_id,' . $companyId,
+            ],
+            'city_id' => [
+                'nullable',
+                'exists:cities,id,company_id,' . $companyId,
+            ],
             'city_id' => 'nullable|exists:cities,id',
             'name' => 'required|string|max:255',
             'address' => 'nullable|string|max:500',

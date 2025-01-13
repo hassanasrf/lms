@@ -20,10 +20,21 @@ class CountryRequest extends BaseRequest
      */
     public function rules(): array
     {
+        $companyId = auth()->user()->company_id;
+
         return [
-            'company_id' => ['sometime', 'nullable', 'exists:companies,id'],
-            'name' => ['required', 'string', 'max:255', 'unique:countries,name'],
-            'code' => ['required', 'string', 'size:2', 'unique:countries,code'],
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                "unique:countries,name,NULL,id,company_id,{$companyId}", // Unique within the same company
+            ],
+            'code' => [
+                'required',
+                'string',
+                'size:2',
+                "unique:countries,code,NULL,id,company_id,{$companyId}", // Unique within the same company
+            ],
         ];
     }
 
@@ -33,12 +44,11 @@ class CountryRequest extends BaseRequest
     public function messages(): array
     {
         return [
-            'company_id.exists' => 'The selected company ID does not exist.',
             'name.required' => 'The country name is required.',
-            'name.unique' => 'This country name is already taken.',
+            'name.unique' => 'This country name is already taken within your company.',
             'code.required' => 'The country code is required.',
             'code.size' => 'The country code must be exactly 2 characters.',
-            'code.unique' => 'This country code is already in use.',
+            'code.unique' => 'This country code is already in use within your company.',
         ];
     }
 }

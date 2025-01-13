@@ -23,7 +23,6 @@ class ShippingLineRequest extends BaseRequest
     public function rules()
     {
         return [
-            'company_id' => 'required|exists:companies,id',
             'line_name' => 'required|string|max:255',
             'local_agent' => 'required|string|max:255',
             'owner' => 'required|string|max:255',
@@ -46,7 +45,6 @@ class ShippingLineRequest extends BaseRequest
     public function attributes()
     {
         return [
-            'company_id' => 'company',
             'line_name' => 'line name',
             'local_agent' => 'local agent',
             'owner' => 'owner',
@@ -69,8 +67,6 @@ class ShippingLineRequest extends BaseRequest
     public function messages()
     {
         return [
-            'company_id.required' => 'The company is required.',
-            'company_id.exists' => 'The selected company is invalid.',
             'line_name.required' => 'The line name is required.',
             'local_agent.required' => 'The local agent is required.',
             'owner.required' => 'The owner is required.',

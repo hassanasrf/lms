@@ -20,10 +20,25 @@ class CityRequest extends BaseRequest
      */
     public function rules(): array
     {
+        $companyId = auth()->user()->company_id;
+
         return [
-            'name' => ['required', 'string', 'max:255'/*, 'unique:cities,name'*/],
-            'country_id' => ['required', 'exists:countries,id'],
-            'code' => ['required', 'string', 'max:10'/*, 'unique:cities,code'*/],
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                "unique:cities,name,NULL,id,company_id,{$companyId}", // Unique within the same company
+            ],
+            'country_id' => [
+                'required',
+                'exists:countries,id',
+            ],
+            'code' => [
+                'required',
+                'string',
+                'max:10',
+                "unique:cities,code,NULL,id,company_id,{$companyId}", // Unique within the same company
+            ],
         ];
     }
 
@@ -34,11 +49,11 @@ class CityRequest extends BaseRequest
     {
         return [
             'name.required' => 'The city name is required.',
-            'name.unique' => 'This city name is already taken.',
+            'name.unique' => 'This city name is already taken within your company.',
             'country_id.required' => 'The country ID is required.',
             'country_id.exists' => 'The selected country ID does not exist.',
             'code.required' => 'The city code is required.',
-            'code.unique' => 'This city code is already in use.',
+            'code.unique' => 'This city code is already in use within your company.',
         ];
     }
 }

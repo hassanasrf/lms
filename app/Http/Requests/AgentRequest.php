@@ -20,12 +20,24 @@ class AgentRequest extends BaseRequest
      */
     public function rules(): array
     {
+        $companyId = auth()->user()->company_id;
+
         return [
-            'company_id' => 'required|exists:companies,id',
+            // 'company_id' => 'required|exists:companies,id',
+            'shipping_line_id' => [
+                'required',
+                'exists:shipping_lines,id,company_id,' . $companyId,
+            ],
             'name' => 'required|string|max:255',
             'address' => 'nullable|string|max:500',
-            'city_id' => 'nullable|exists:cities,id',
-            'country_id' => 'nullable|exists:countries,id',
+            'city_id' => [
+                'nullable',
+                'exists:cities,id,company_id,' . $companyId,
+            ],
+            'country_id' => [
+                'nullable',
+                'exists:countries,id,company_id,' . $companyId,
+            ],
             'contact_persons' => 'nullable|array',
             'contact_persons.*' => 'nullable|string|max:255',
             'contact_numbers' => 'nullable|array',
@@ -43,8 +55,8 @@ class AgentRequest extends BaseRequest
     public function messages(): array
     {
         return [
-            'company_id.required' => 'The company ID is required.',
-            'company_id.exists' => 'The selected company ID does not exist.',
+            // 'company_id.required' => 'The company ID is required.',
+            // 'company_id.exists' => 'The selected company ID does not exist.',
             'name.required' => 'The agent name is required.',
             'name.string' => 'The agent name must be a string.',
             'name.max' => 'The agent name may not be greater than 255 characters.',
