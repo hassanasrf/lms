@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('tagging_points', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('company_id')->constrained('companies')->cascadeOnDelete();
             $table->foreignId('city_id')->constrained('cities')->cascadeOnDelete();
             $table->foreignId('country_id')->constrained('countries')->cascadeOnDelete();
             $table->string('type'); // Type (Country / City / Terminal / Yard / Loading Point / Warehouse)
