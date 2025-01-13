@@ -36,16 +36,10 @@ Route::group([
         ], function () {
 
             Route::apiResource('users', 'UserController');
-            Route::apiResource('roles', 'RoleController');
             Route::apiResource('cities', 'CityController');
-            Route::apiResource('agents', 'AgentController');
-            Route::apiResource('bookings', 'BookingController');
             Route::apiResource('companies', 'CompanyController');
             Route::apiResource('countries', 'CountryController');
-            Route::apiResource('customers', 'CustomerController');
             Route::apiResource('currencies', 'CurrencyController');
-            Route::apiResource('commodities', 'CommodityController');
-            Route::apiResource('shipping-lines', 'ShippingLineController');
             Route::apiResource('permissions', 'PermissionController')->except(['index']);
         });
     });

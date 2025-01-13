@@ -15,12 +15,10 @@ class CustomerController extends BaseController
     public function __construct(
         public readonly CustomerRepositoryInterface $repo)
     {
-        if (!auth()->guard('admin')->check()) {
-            $this->middleware('permission:customer-read', ['only' => ['index','show']]);
-            $this->middleware('permission:customer-create', ['only' => 'store']);
-            $this->middleware('permission:customer-update', ['only' => 'update']);
-            $this->middleware('permission:customer-delete', ['only' => 'destroy']);
-        }
+        $this->middleware('permission:customer-read', ['only' => ['index','show']]);
+        $this->middleware('permission:customer-create', ['only' => 'store']);
+        $this->middleware('permission:customer-update', ['only' => 'update']);
+        $this->middleware('permission:customer-delete', ['only' => 'destroy']);
     }
 
     /**
