@@ -26,6 +26,7 @@ class PermissionSeeder extends Seeder
             'shipping-read', 'shipping-create', 'shipping-update', 'shipping-delete',
             'commodity-read', 'commodity-create', 'commodity-update', 'commodity-delete',
             'permission-read', 'permission-create', 'permission-update', 'permission-delete',
+            'tagging-point-read', 'tagging-point-create', 'tagging-point-update', 'tagging-point-delete',
         ];
 
         foreach ($permissions as $permission) {

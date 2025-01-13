@@ -15,10 +15,10 @@ class TaggingPointController extends BaseController
     public function __construct(
         public readonly TaggingPointRepositoryInterface $repo)
     {
-        $this->middleware('permission:city-read', ['only' => ['index','show']]);
-        $this->middleware('permission:city-create', ['only' => 'store']);
-        $this->middleware('permission:city-update', ['only' => 'update']);
-        $this->middleware('permission:city-delete', ['only' => 'destroy']);
+        $this->middleware('permission:tagging-point-read', ['only' => ['index','show']]);
+        $this->middleware('permission:tagging-point-create', ['only' => 'store']);
+        $this->middleware('permission:tagging-point-update', ['only' => 'update']);
+        $this->middleware('permission:tagging-point-delete', ['only' => 'destroy']);
     }
 
     /**
