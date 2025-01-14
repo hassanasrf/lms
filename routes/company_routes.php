@@ -37,6 +37,7 @@ Route::group([
 
             Route::apiResource('users', 'UserController');
             Route::apiResource('roles', 'RoleController');
+            Route::apiResource('banks', 'BankController');
             Route::apiResource('cities', 'CityController');
             Route::apiResource('agents', 'AgentController');
             Route::apiResource('bookings', 'BookingController');

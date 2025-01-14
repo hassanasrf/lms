@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('number_of_containers')->nullable();
             $table->string('bulk_details')->nullable();
             $table->string('other_details')->nullable();
-            $table->string('loading_point_id')->nullable()->constrained('tagging_points')->nullOnDelete();
+            $table->foreignId('loading_point_id')->nullable()->constrained('tagging_points')->nullOnDelete();
             $table->foreignId('commodity_id')->nullable()->constrained('commodities')->nullOnDelete();
             $table->foreignId('destination_country_id')->nullable()->constrained('tagging_points')->nullOnDelete();
             $table->string('licence_name')->nullable();
@@ -34,6 +34,7 @@ return new class extends Migration
             $table->enum('document_type', ['CNF', 'CIF', 'FOB', 'ETC'])->nullable();
             $table->string('loading_person')->nullable();
             $table->string('loading_person_cell')->nullable();
+            $table->timestamps();
             $table->softDeletes();
         });
     }
