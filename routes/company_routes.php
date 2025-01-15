@@ -35,6 +35,11 @@ Route::group([
             'namespace' => 'Admin'
         ], function () {
 
+            Route::get('currency', 'DataController@getCurrency');
+            Route::get('service-types', 'DataController@getServiceType');
+            Route::get('company-types', 'DataController@getCompanyType');
+            Route::get('customer-types', 'DataController@getCustomerType');
+
             Route::apiResource('users', 'UserController');
             Route::apiResource('roles', 'RoleController');
             Route::apiResource('banks', 'BankController');
