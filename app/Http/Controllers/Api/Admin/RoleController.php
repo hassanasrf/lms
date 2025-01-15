@@ -49,7 +49,7 @@ class RoleController extends BaseController
             $response = $this->repo->createRole($request->validated());
 
             return successResponse($response, Constant::MESSAGE_CREATED);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return errorResponse($e->getMessage(),$e->getCode());
         }
     }

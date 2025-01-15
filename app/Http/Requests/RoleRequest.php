@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\BaseRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Routing\Route;
 
 class RoleRequest extends BaseRequest
@@ -25,12 +26,16 @@ class RoleRequest extends BaseRequest
         return []
         +
         ($this->isMethod('POST') ? $this->store() : $this->update());
+
+        // Merge role-specific rules
+        return array_merge($rules, $this->adminSpecificRules());
     }
 
     protected function store()
     {
         return [
-            'name' => 'required|unique:roles,name',
+            'company_id' => $this->companyIdRules(),
+            'name' => 'required',
             'permission' => 'required|array',
         ];
     }
@@ -39,10 +44,44 @@ class RoleRequest extends BaseRequest
     {
         $model = request()->route('role');
         return [
+            'company_id' => $this->companyIdRules(),
             'name' => 'required|unique:roles,name,' . $model->id,
             'permission' => 'required|array',
             'user_ids' => 'sometimes|array',
             '_method' => 'required|in:put',
         ];
+    }
+
+    /**
+     * Define validation rules for `company_id`.
+     */
+    protected function companyIdRules(): array
+    {
+        return [
+            Rule::requiredIf($this->isAdminRequest()),
+            Rule::exists('companies', 'id'),
+        ];
+    }
+
+    /**
+     * Additional admin-specific rules.
+     */
+    protected function adminSpecificRules(): array
+    {
+        if ($this->isAdminRequest()) {
+            return [
+                'company_id' => 'required|exists:companies,id',
+            ];
+        }
+
+        return [];
+    }
+
+    /**
+     * Check if the current request is from an admin.
+     */
+    protected function isAdminRequest(): bool
+    {
+        return auth()->guard('admin')->check();
     }
 }
