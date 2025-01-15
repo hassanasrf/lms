@@ -31,7 +31,8 @@ class CompanyController extends BaseController
         try {
             $paginate = $request->boolean('paginate', true);
             $perPage = (int) $request->get('perPage', 10);
-            $response = $this->repo->all(paginate: $paginate, perPage: $perPage);
+            $relations = ['companyTypes'];
+            $response = $this->repo->all(relations: $relations, paginate: $paginate, perPage: $perPage);
 
             return successResponse($response, Constant::MESSAGE_FETCHED, $paginate);
         } catch (Exception $e) {
@@ -45,7 +46,7 @@ class CompanyController extends BaseController
     public function store(CompanyRequest $request)
     {
         try {
-            $response = $this->repo->create($request->validated());
+            $response = $this->repo->createCompany($request->validated());
 
             return successResponse($response, Constant::MESSAGE_CREATED);
         } catch (Exception $e) {
@@ -59,7 +60,8 @@ class CompanyController extends BaseController
     public function show(Company $company)
     {
         try {
-            $response = $this->repo->showModel($company);
+            $relations = ['companyTypes'];
+            $response = $this->repo->showModel($company, $relations);
             
             return successResponse($response, Constant::MESSAGE_FETCHED);
         } catch (Exception $e) {
@@ -72,10 +74,9 @@ class CompanyController extends BaseController
      */
     public function update(CompanyRequest $request, Company $company)
     {
-        // TODO
         try {
             $data = $request->validated();
-            $response = $this->repo->updateModel($company, $data);
+            $response = $this->repo->updateCompany($company, $data);
 
             return successResponse($response, Constant::MESSAGE_UPDATED);
         } catch (Exception $e) {

@@ -40,7 +40,8 @@ class CompanyRequest extends BaseRequest
             'licence_number' => 'nullable|string|max:100',
             'custom_code' => 'nullable|string|max:50',
             'telephone' => 'nullable|string|max:20',
-            'company_type_id' => 'required|exists:company_types,id',
+            'company_type_ids' => 'required|array',
+            'company_type_ids.*' => 'exists:company_types,id',
             'logo' => 'sometimes|nullable',
         ];
     }
@@ -59,7 +60,8 @@ class CompanyRequest extends BaseRequest
             'licence_number' => 'nullable|string|max:100',
             'custom_code' => 'nullable|string|max:50',
             'telephone' => 'nullable|string|max:20',
-            'type_id' => 'required|exists:types,id',
+            'company_type_ids' => 'required|array',
+            'company_type_ids.*' => 'exists:company_types,id',
             'logo' => 'sometimes|nullable',
             '_method' => 'required|in:put',
         ];

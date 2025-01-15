@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             ServiceTypeSeeder::class,
             CompanyTypeSeeder::class,
             CompanySeeder::class,
+            CompanyCompanyTypeSeeder::class,
             CustomerTypeSeeder::class,
             TaggingPointSeeder::class,
             AdminSeeder::class,
