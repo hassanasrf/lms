@@ -25,7 +25,7 @@ class CompanySeeder extends Seeder
                 'licence_number' => 'LIC001',
                 'custom_code' => 'CUST001',
                 'telephone' => '021-12345678',
-                'company_type_id' => 1,
+                // 'company_type_id' => 1,
                 'domain_name' => 'abc-corp.com',
             ],
             [
@@ -39,7 +39,7 @@ class CompanySeeder extends Seeder
                 'licence_number' => 'LIC002',
                 'custom_code' => 'CUST002',
                 'telephone' => '042-98765432',
-                'company_type_id' => 2,
+                // 'company_type_id' => 2,
                 'domain_name' => 'xyz-ltd.com',
             ],
         ];
