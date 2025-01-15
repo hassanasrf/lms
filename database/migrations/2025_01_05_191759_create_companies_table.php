@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('country_id')->constrained('countries')->cascadeOnDelete();
             $table->foreignId('city_id')->constrained('cities')->cascadeOnDelete();
-            $table->foreignId('type_id')->constrained('types')->cascadeOnDelete();
+            // $table->foreignId('company_type_id')->constrained('company_types')->cascadeOnDelete();
             $table->string('name');
+            $table->string('domain_name')->nullable();
             $table->string('address')->nullable();
             $table->string('ntn_number')->nullable();
             $table->string('str_number')->nullable();

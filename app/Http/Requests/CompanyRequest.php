@@ -40,7 +40,7 @@ class CompanyRequest extends BaseRequest
             'licence_number' => 'nullable|string|max:100',
             'custom_code' => 'nullable|string|max:50',
             'telephone' => 'nullable|string|max:20',
-            'type_id' => 'required|exists:types,id',
+            'company_type_id' => 'required|exists:company_types,id',
             'logo' => 'sometimes|nullable',
         ];
     }

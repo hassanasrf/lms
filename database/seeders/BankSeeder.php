@@ -15,7 +15,7 @@ class BankSeeder extends Seeder
         $banks = [
             [
                 'company_id' => 1,
-                'type_id' => null,
+                'customer_type_id' => null,
                 'customer_id' => 1,
                 'bank_name' => 'National Bank',
                 'branch_name' => 'Main Branch',
@@ -31,7 +31,7 @@ class BankSeeder extends Seeder
             ],
             [
                 'company_id' => 2,
-                'type_id' => 1,
+                'customer_type_id' => 1,
                 'customer_id' => 2,
                 'bank_name' => 'HBL',
                 'branch_name' => 'City Branch',

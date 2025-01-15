@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id')->constrained('companies')->cascadeOnDelete();
             $table->foreignId('customer_id')->constrained('customers')->cascadeOnDelete();
-            $table->foreignId('type_id')->nullable()->constrained('types')->nullOnDelete();
+            $table->foreignId('customer_type_id')->nullable()->constrained('customer_types')->nullOnDelete();
             $table->foreignId('country_id')->nullable()->constrained('countries')->cascadeOnDelete();
             $table->foreignId('city_id')->nullable()->constrained('cities')->cascadeOnDelete();
             $table->string('bank_name');

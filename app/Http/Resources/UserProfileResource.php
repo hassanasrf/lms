@@ -57,6 +57,7 @@ class UserProfileResource extends JsonResource
             'company_name' => $this->company?->name,
             'role' => $this->role_name,
             'permission' => $this->permission,
+            'company' => CompanyResource::make($this->whenLoaded('company')),
         ];
     }
 }

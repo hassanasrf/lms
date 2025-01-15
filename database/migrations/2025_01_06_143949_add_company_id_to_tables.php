@@ -18,10 +18,6 @@ return new class extends Migration
         Schema::table('cities', function (Blueprint $table) {
             $table->foreignId('company_id')->nullable()->after('id')->constrained('companies')->cascadeOnDelete();
         });
-
-        Schema::table('types', function (Blueprint $table) {
-            $table->foreignId('company_id')->nullable()->after('id')->constrained('companies')->cascadeOnDelete();
-        });
     }
 
     /**
@@ -36,11 +32,6 @@ return new class extends Migration
 
         // Dropping company_id from the 'cities' table
         Schema::table('cities', function (Blueprint $table) {
-            $table->dropColumn('company_id');
-        });
-
-        // Dropping company_id from the 'types' table
-        Schema::table('types', function (Blueprint $table) {
             $table->dropColumn('company_id');
         });
     }

@@ -23,6 +23,7 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'role' => $this->role_name,
             'permission' => $this->permission,
+            'company' => CompanyResource::make($this->whenLoaded('company')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
