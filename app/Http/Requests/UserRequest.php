@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\BaseRequest;
-use Illuminate\Routing\Route;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UserRequest extends BaseRequest
 {
@@ -17,58 +17,106 @@ class UserRequest extends BaseRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
-        return array_merge(
-            ($this->isMethod('POST') ? $this->store() : $this->update()),
-            $this->guardSpecificRules()
-        );
+        $rules = $this->isMethod('POST') ? $this->storeRules() : $this->updateRules();
+
+        // Merge role-specific rules
+        return array_merge($rules, $this->adminSpecificRules());
     }
 
     /**
-     * Validation rules for creating a new user.
+     * Get validation rules for creating a new user.
      */
-    protected function store(): array
+    protected function storeRules(): array
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6',
             'is_active' => 'sometimes|boolean',
-            'role_id' => 'required|exists:roles,id',
+            'company_id' => $this->companyIdRules(),
+            'role_id' => $this->roleIdRules(),
         ];
     }
 
     /**
-     * Validation rules for updating a user.
+     * Get validation rules for updating an existing user.
      */
-    protected function update(): array
+    protected function updateRules(): array
     {
-        $model = request()->route('user');
+        $userId = $this->route('user')->id;
+
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $model->id,
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users', 'email')->ignore($userId),
+            ],
             'password' => 'sometimes|string|min:6',
             'is_active' => 'sometimes|boolean',
-            'role_id' => 'required|exists:roles,id',
-            '_method' => 'required|in:put',
+            'company_id' => $this->companyIdRules(),
+            'role_id' => $this->roleIdRules(),
         ];
     }
 
     /**
-     * Additional rules based on the authenticated guard.
+     * Define validation rules for `company_id`.
      */
-    protected function guardSpecificRules(): array
+    protected function companyIdRules(): array
     {
-        if (\Auth::guard('admin')->check()) {
+        return [
+            Rule::requiredIf($this->isAdminRequest()),
+            Rule::exists('companies', 'id'),
+        ];
+    }
+
+    /**
+     * Define validation rules for `role_id`.
+     */
+    protected function roleIdRules(): array
+    {
+        $companyId = $this->getCompanyId();
+
+        return [
+            'required',
+            Rule::exists('roles', 'id')->where('company_id', $companyId),
+        ];
+    }
+
+    /**
+     * Additional admin-specific rules.
+     */
+    protected function adminSpecificRules(): array
+    {
+        if ($this->isAdminRequest()) {
             return [
                 'company_id' => 'required|exists:companies,id',
             ];
         }
 
         return [];
+    }
+
+    /**
+     * Check if the current request is from an admin.
+     */
+    protected function isAdminRequest(): bool
+    {
+        return auth()->guard('admin')->check();
+    }
+
+    /**
+     * Retrieve the company ID for the request.
+     */
+    protected function getCompanyId(): ?int
+    {
+        if ($this->isAdminRequest()) {
+            return $this->input('company_id');
+        }
+
+        return auth()->user()?->company_id;
     }
 }
