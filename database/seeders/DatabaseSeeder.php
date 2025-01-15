@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             ShippingLineSeeder::class,
             AgentSeeder::class,
             CustomerSeeder::class,
+            CustomerCustomerTypeSeeder::class,
             BankSeeder::class,
         ]);
     }

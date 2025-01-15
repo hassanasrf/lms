@@ -49,7 +49,8 @@ class CustomerRequest extends BaseRequest
             'licence_name' => 'nullable|string|max:255',
             'licence_no' => 'nullable|string|max:100',
             'custom_code' => 'nullable|string|max:50',
-            'customer_type_id' => 'required|exists:customer_types,id',
+            'customer_type_ids' => 'required|array',
+            'customer_type_ids.*' => 'exists:customer_types,id',
         ];
     }
 
@@ -76,7 +77,8 @@ class CustomerRequest extends BaseRequest
             'licence_name' => 'nullable|string|max:255',
             'licence_no' => 'nullable|string|max:100',
             'custom_code' => 'nullable|string|max:50',
-            'customer_type_id' => 'required|exists:customer_types,id',
+            'customer_type_ids' => 'required|array',
+            'customer_type_ids.*' => 'exists:customer_types,id',
             '_method' => 'required|in:put',
         ];
     }
