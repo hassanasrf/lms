@@ -73,7 +73,7 @@ class UserController extends BaseController
     public function update(UserRequest $request, User $user)
     {
         try {
-            $response = $this->repo->update($user, $request->validated());
+            $response = $this->repo->updateUser($user, $request->validated());
             return successResponse($response, Constant::MESSAGE_UPDATED);
         } catch (Exception $e) {
             return errorResponse($e->getMessage(),$e->getCode());

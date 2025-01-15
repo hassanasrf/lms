@@ -32,6 +32,17 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         return $this->resource::make($user);
     }
 
+    public function updateUser(Model $model, array $data): bool
+    {
+        $model->update(Arr::except($data, ['role_id']));
+        if (isset($data['role_id'])) {
+            $roleId = $data['role_id'];
+            $role = Role::findById($roleId, 'api');
+            $model->syncRoles([$role]);
+        }
+        return true;
+    }
+
      /**
      * summary profileUpdate
      *
