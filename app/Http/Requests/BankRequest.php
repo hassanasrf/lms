@@ -24,10 +24,10 @@ class BankRequest extends BaseRequest
 
         return [
             'type' => 'nullable|string|max:255',
-            'customer_id' => [
+            /*'customer_id' => [
                 'nullable',
                 'exists:customers,id,company_id,' . $companyId,
-            ],
+            ],*/
             'bank_name' => 'required|string|max:255',
             'branch_name' => 'required|string|max:255',
             'address' => 'nullable|string|max:500',
@@ -54,8 +54,8 @@ class BankRequest extends BaseRequest
     public function messages(): array
     {
         return [
-            'customer_id.required' => 'The customer ID is required.',
-            'customer_id.exists' => 'The selected customer does not exist.',
+            /*'customer_id.required' => 'The customer ID is required.',
+            'customer_id.exists' => 'The selected customer does not exist.',*/
             'city_id.required' => 'The city ID is required.',
             'city_id.exists' => 'The selected city does not exist.',
             'country_id.required' => 'The country ID is required.',
