@@ -31,7 +31,8 @@ class CountryController extends BaseController
         try {
             $paginate = $request->boolean('paginate', true);
             $perPage = (int) $request->get('perPage', 10);
-            $response = $this->repo->all(paginate: $paginate, perPage: $perPage);
+            $relations = ['cities'];
+            $response = $this->repo->all(relations: $relations, paginate: $paginate, perPage: $perPage);
 
             return successResponse($response, Constant::MESSAGE_FETCHED, $paginate);
         } catch (Exception $e) {
@@ -59,7 +60,8 @@ class CountryController extends BaseController
     public function show(Country $country)
     {
         try {
-            $response = $this->repo->showModel($country);
+            $relations = ['cities'];
+            $response = $this->repo->showModel($country, $relations);
             
             return successResponse($response, Constant::MESSAGE_FETCHED);
         } catch (Exception $e) {
