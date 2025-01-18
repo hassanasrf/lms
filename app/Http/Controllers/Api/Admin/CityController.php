@@ -7,6 +7,7 @@ use App\Models\City;
 use App\Helpers\Constant;
 use Illuminate\Http\Request;
 use App\Http\Requests\CityRequest;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\BaseController;
 use App\Repository\Contracts\CityRepositoryInterface;
 
@@ -31,7 +32,13 @@ class CityController extends BaseController
         try {
             $paginate = $request->boolean('paginate', true);
             $perPage = (int) $request->get('perPage', 10);
-            $response = $this->repo->all(paginate: $paginate, perPage: $perPage);
+            $where = [];
+
+            if (Auth::guard('admin')->check()) {
+                $where = [['company_id', NULL]];
+            }
+
+            $response = $this->repo->all(where: $where, paginate: $paginate, perPage: $perPage);
 
             return successResponse($response, Constant::MESSAGE_FETCHED, $paginate);
         } catch (Exception $e) {

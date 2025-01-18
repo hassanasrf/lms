@@ -6,6 +6,7 @@ use Exception;
 use App\Models\Country;
 use App\Helpers\Constant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CountryRequest;
 use App\Http\Controllers\BaseController;
 use App\Repository\Contracts\CountryRepositoryInterface;
@@ -32,7 +33,13 @@ class CountryController extends BaseController
             $paginate = $request->boolean('paginate', true);
             $perPage = (int) $request->get('perPage', 10);
             $relations = ['cities'];
-            $response = $this->repo->all(relations: $relations, paginate: $paginate, perPage: $perPage);
+            
+            $where = [];
+            if (Auth::guard('admin')->check()) {
+                $where = [['company_id', NULL]];
+            }
+
+            $response = $this->repo->all(where: $where, relations: $relations, paginate: $paginate, perPage: $perPage);
 
             return successResponse($response, Constant::MESSAGE_FETCHED, $paginate);
         } catch (Exception $e) {
