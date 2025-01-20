@@ -48,9 +48,10 @@ Route::group([
             Route::apiResource('currencies', 'CurrencyController');
             Route::apiResource('permissions', 'PermissionController')->except(['index']);
 
-            Route::get('company-by-subdomain', 'CompanyController@getCompanyDetailsBySubdomain');
 
         });
     });
+
+    Route::get('company-by-subdomain', 'Admin\CompanyController@getCompanyDetailsBySubdomain');
 
 });

@@ -57,4 +57,6 @@ Route::group([
         });
     });
 
+    Route::get('company-by-subdomain', 'Admin\CompanyController@getCompanyDetailsBySubdomain');
+
 });
