@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use Exception;
 use App\Models\Company;
+use App\Models\Subdomain;
 use App\Helpers\Constant;
 use Illuminate\Http\Request;
 use App\Http\Requests\CompanyRequest;
@@ -31,7 +32,7 @@ class CompanyController extends BaseController
         try {
             $paginate = $request->boolean('paginate', true);
             $perPage = (int) $request->get('perPage', 10);
-            $relations = ['companyTypes'];
+            $relations = ['companyTypes','domains','subdomains'];
             $response = $this->repo->all(relations: $relations, paginate: $paginate, perPage: $perPage);
 
             return successResponse($response, Constant::MESSAGE_FETCHED, $paginate);
@@ -60,7 +61,7 @@ class CompanyController extends BaseController
     public function show(Company $company)
     {
         try {
-            $relations = ['companyTypes'];
+            $relations = ['companyTypes','domains','subdomains'];
             $response = $this->repo->showModel($company, $relations);
             
             return successResponse($response, Constant::MESSAGE_FETCHED);
@@ -95,6 +96,27 @@ class CompanyController extends BaseController
             return successResponse(true, Constant::MESSAGE_DELETED);
         } catch (Exception $e) {
             return errorResponse($e->getMessage(),$e->getCode());
+        }
+    }
+
+
+    /**
+     * Display the specified resource.
+     */
+    public function getCompanyDetailsBySubdomain(Request $request)
+    {
+        $subdomain = strtolower($request->get('subdomain')); // Ensure subdomain is lowercase
+
+        try {
+            // Find the subdomain by matching the lowercase subdomain
+            $subdomainRecord = Subdomain::where('name', $subdomain)->firstOrFail();
+
+            // Return the company details associated with the subdomain
+            $company = $subdomainRecord->company;
+
+            return successResponse($company, Constant::MESSAGE_FETCHED);
+        } catch (Exception $e) {
+            return errorResponse('Subdomain not found', 404);
         }
     }
 }

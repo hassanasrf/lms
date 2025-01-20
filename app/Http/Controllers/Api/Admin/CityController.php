@@ -32,13 +32,14 @@ class CityController extends BaseController
         try {
             $paginate = $request->boolean('paginate', true);
             $perPage = (int) $request->get('perPage', 10);
-            $where = [];
+            $relations = ['country'];
 
+            $where = [];
             if (Auth::guard('admin')->check()) {
                 $where = [['company_id', NULL]];
             }
 
-            $response = $this->repo->all(where: $where, paginate: $paginate, perPage: $perPage);
+            $response = $this->repo->all(where: $where, relations: $relations, paginate: $paginate, perPage: $perPage);
 
             return successResponse($response, Constant::MESSAGE_FETCHED, $paginate);
         } catch (Exception $e) {
@@ -66,7 +67,8 @@ class CityController extends BaseController
     public function show(City $city)
     {
         try {
-            $response = $this->repo->showModel($city);
+            $relations = ['country'];
+            $response = $this->repo->showModel($city, $relations);
             
             return successResponse($response, Constant::MESSAGE_FETCHED);
         } catch (Exception $e) {

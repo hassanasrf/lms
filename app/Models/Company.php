@@ -22,6 +22,16 @@ class Company extends Model
      */
     protected $guarded = [];
 
+     /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'domains' => 'array',
+        'subdomains' => 'array',
+    ];
+
     /**
      * Get the city associated with the company.
      */
@@ -57,6 +67,16 @@ class Company extends Model
     public function companyTypes(): BelongsToMany
     {
         return $this->belongsToMany(CompanyType::class, 'company_company_type');
+    }
+
+    public function domains(): HasMany
+    {
+        return $this->hasMany(Domain::class);
+    }
+
+    public function subdomains(): HasMany
+    {
+        return $this->hasMany(Subdomain::class);
     }
 
     /**
