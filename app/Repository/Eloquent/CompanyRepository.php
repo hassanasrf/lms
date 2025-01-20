@@ -23,18 +23,32 @@ class CompanyRepository extends BaseRepository implements CompanyRepositoryInter
 
     public function createCompany(array $data): CompanyResource
     {
-        $company = $this->create(Arr::except($data, ['company_type_ids']));
+        $company = $this->create(Arr::except($data, ['company_type_ids', 'domains', 'subdomains']));
         $company->companyTypes()->attach($data['company_type_ids']);
+        // dD($data['domains']);
+        $company->domains()->createMany($data['domains']);
+        $company->subdomains()->createMany($data['subdomains']);
+
         return $this->resource::make($company);
     }
 
     public function updateCompany(Model $model, array $data): bool
     {
-        $model->update(Arr::except($data, ['company_type_ids']));
+        // dd($model->domains());
 
         if (isset($data['company_type_ids'])) {
             $model->companyTypes()->sync($data['company_type_ids']);
         }
+        if (isset($data['domains'])) {
+            $model->domains()->delete();
+            $model->domains()->createMany($data['domains']);
+        }
+        if (isset($data['subdomains'])) {
+            $model->subdomains()->delete();
+            $model->subdomains()->createMany($data['subdomains']);
+        }
+
+        $model->update(Arr::except($data, ['company_type_ids', 'domains', 'subdomains']));
         return true;
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\BaseRequest;
 use Illuminate\Routing\Route;
+use Illuminate\Validation\Rule;
 
 class CompanyRequest extends BaseRequest
 {
@@ -43,6 +44,21 @@ class CompanyRequest extends BaseRequest
             'company_type_ids' => 'required|array',
             'company_type_ids.*' => 'exists:company_types,id',
             'logo' => 'sometimes|nullable',
+
+            'domains' => 'nullable|array',
+            'domains.*.name' => [
+                'required',
+                'string',
+                'unique:domains,name',
+                'regex:/^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/',
+            ],
+            'subdomains' => 'nullable|array',
+            'subdomains.*.name' => [
+                'required',
+                'string',
+                'unique:subdomains,name',
+                'regex:/^[a-zA-Z0-9.-]+$/',
+            ],
         ];
     }
 
@@ -64,6 +80,21 @@ class CompanyRequest extends BaseRequest
             'company_type_ids.*' => 'exists:company_types,id',
             'logo' => 'sometimes|nullable',
             '_method' => 'required|in:put',
+
+            'domains' => 'nullable|array',
+            'domains.*.name' => [
+                'required',
+                'string',
+                Rule::unique('domains', 'name')->ignore($model->id),
+                'regex:/^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/', // Valid domain format
+            ],
+            'subdomains' => 'nullable|array',
+            'subdomains.*.name' => [
+                'required',
+                'string',
+                Rule::unique('subdomains', 'name')->ignore($model->id),
+                'regex:/^[a-zA-Z0-9.-]+$/',
+            ],
         ];
     }
 

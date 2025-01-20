@@ -26,4 +26,12 @@ class Country extends Model
     {
         return $this->hasMany(TaggingPoint::class);
     }
+
+    /**
+     * Get all the cities for the country.
+     */
+    public function cities(): HasMany
+    {
+        return $this->hasMany(City::class);
+    }
 }
