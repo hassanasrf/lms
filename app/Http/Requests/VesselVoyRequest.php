@@ -26,7 +26,12 @@ class VesselVoyRequest extends BaseRequest
            'vessel_name' => 'required|string|max:255',
             'shipping_line_id' => 'nullable|exists:shipping_lines,id',
             'agent_id' => 'nullable|exists:agents,id',
-            'type_of_vessel' => 'nullable|string|max:255',
+            'type_of_vessel' => [
+                'nullable',
+                'string',
+                'max:255',
+                'in:Container,Bulk,"Container & Bulk",RORO,"Break Bulk"'
+            ],
             'flag' => 'nullable|string|max:255',
             'gross_tonnage' => 'nullable|numeric',
             'net_tonnage' => 'nullable|numeric',
