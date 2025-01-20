@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\BaseRequest;
 use Illuminate\Routing\Route;
+use Illuminate\Validation\Rule;
 
 class CompanyRequest extends BaseRequest
 {
@@ -84,14 +85,14 @@ class CompanyRequest extends BaseRequest
             'domains.*.name' => [
                 'required',
                 'string',
-                'unique:domains,name' . $model->id, 
+                Rule::unique('domains', 'name')->ignore($model->id),
                 'regex:/^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/', // Valid domain format
             ],
             'subdomains' => 'nullable|array',
             'subdomains.*.name' => [
                 'required',
                 'string',
-                'unique:subdomains,name' . $model->id, 
+                Rule::unique('subdomains', 'name')->ignore($model->id),
                 'regex:/^[a-zA-Z0-9.-]+$/',
             ],
         ];

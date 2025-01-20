@@ -34,11 +34,21 @@ class CompanyRepository extends BaseRepository implements CompanyRepositoryInter
 
     public function updateCompany(Model $model, array $data): bool
     {
-        $model->update(Arr::except($data, ['company_type_ids', 'domains', 'subdomains']));
+        // dd($model->domains());
 
         if (isset($data['company_type_ids'])) {
             $model->companyTypes()->sync($data['company_type_ids']);
         }
+        if (isset($data['domains'])) {
+            $model->domains()->delete();
+            $model->domains()->createMany($data['domains']);
+        }
+        if (isset($data['subdomains'])) {
+            $model->subdomains()->delete();
+            $model->subdomains()->createMany($data['subdomains']);
+        }
+
+        $model->update(Arr::except($data, ['company_type_ids', 'domains', 'subdomains']));
         return true;
     }
 
