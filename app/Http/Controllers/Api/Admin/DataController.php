@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use Exception;
-use App\Models\Currency;
+use App\Models\Package;
 use App\Helpers\Constant;
 use App\Models\ServiceType;
 use App\Models\CompanyType;
@@ -55,10 +55,10 @@ class DataController extends BaseController
     /**
      * Display a listing of the resource.
      */
-    public function getCurrency()
+    public function getPackage()
     {
         try {
-            $response = Currency::get(['id','name','code']);
+            $response = Package::get(['id','name','packing_code']);
             return successResponse($response, Constant::MESSAGE_FETCHED);
         } catch (Exception $e) {
             return errorResponse($e->getMessage(), $e->getCode());
