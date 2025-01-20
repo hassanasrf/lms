@@ -49,6 +49,7 @@ Route::group([
             Route::apiResource('countries', 'CountryController');
             Route::apiResource('customers', 'CustomerController');
             Route::apiResource('currencies', 'CurrencyController');
+            Route::apiResource('vessel-voys', 'VesselVoyController');
             Route::apiResource('commodities', 'CommodityController');
             Route::apiResource('tagging-points', 'taggingPointController');
             Route::apiResource('shipping-lines', 'ShippingLineController');

@@ -26,6 +26,7 @@ class PermissionSeeder extends Seeder
             'customer-read', 'customer-create', 'customer-update', 'customer-delete',
             'shipping-read', 'shipping-create', 'shipping-update', 'shipping-delete',
             'commodity-read', 'commodity-create', 'commodity-update', 'commodity-delete',
+            'vessel-voy-read', 'vessel-voy-create', 'vessel-voy-update', 'vessel-voy-delete',
             'permission-read', 'permission-create', 'permission-update', 'permission-delete',
             'tagging-point-read', 'tagging-point-create', 'tagging-point-update', 'tagging-point-delete',
         ];
