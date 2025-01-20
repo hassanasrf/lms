@@ -26,13 +26,13 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             UserSeeder::class,
             CurrencySeeder::class,
-            CommoditySeeder::class,
             ShippingLineSeeder::class,
             AgentSeeder::class,
             CustomerSeeder::class,
             CustomerCustomerTypeSeeder::class,
             BankSeeder::class,
             PackageSeeder::class,
+            CommoditySeeder::class,
         ]);
     }
 }
