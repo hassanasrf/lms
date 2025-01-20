@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
             CustomerSeeder::class,
             CustomerCustomerTypeSeeder::class,
             BankSeeder::class,
+            PackageSeeder::class,
         ]);
     }
 }
