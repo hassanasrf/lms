@@ -21,6 +21,7 @@ class UserResource extends JsonResource
             'company_name' => $this->company?->name,
             'name' => $this->name,
             'email' => $this->email,
+            'role_id' => $this->roles->pluck('id'),
             'role' => $this->role_name,
             'permission' => $this->permission,
             'company' => CompanyResource::make($this->whenLoaded('company')),
