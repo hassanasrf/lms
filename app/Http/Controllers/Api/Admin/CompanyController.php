@@ -32,7 +32,7 @@ class CompanyController extends BaseController
         try {
             $paginate = $request->boolean('paginate', true);
             $perPage = (int) $request->get('perPage', 10);
-            $relations = ['companyTypes','domains','subdomains'];
+            $relations = ['companyTypes','domains','subdomains','country','city'];
             $response = $this->repo->all(relations: $relations, paginate: $paginate, perPage: $perPage);
 
             return successResponse($response, Constant::MESSAGE_FETCHED, $paginate);
@@ -61,7 +61,7 @@ class CompanyController extends BaseController
     public function show(Company $company)
     {
         try {
-            $relations = ['companyTypes','domains','subdomains'];
+            $relations = ['companyTypes','domains','subdomains','country','city'];
             $response = $this->repo->showModel($company, $relations);
             
             return successResponse($response, Constant::MESSAGE_FETCHED);
