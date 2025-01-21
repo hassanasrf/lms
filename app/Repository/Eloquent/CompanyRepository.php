@@ -26,8 +26,8 @@ class CompanyRepository extends BaseRepository implements CompanyRepositoryInter
         $company = $this->create(Arr::except($data, ['company_type_ids', 'domains', 'subdomains']));
         $company->companyTypes()->attach($data['company_type_ids']);
         // dD($data['domains']);
-        $company->domains()->createMany($data['domains']);
-        $company->subdomains()->createMany($data['subdomains']);
+        $company->domains()->createMany(@$data['domains']);
+        $company->subdomains()->createMany(@$data['subdomains']);
 
         return $this->resource::make($company);
     }

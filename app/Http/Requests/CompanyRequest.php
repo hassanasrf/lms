@@ -44,6 +44,7 @@ class CompanyRequest extends BaseRequest
             'company_type_ids' => 'required|array',
             'company_type_ids.*' => 'exists:company_types,id',
             'logo' => 'sometimes|nullable',
+            'primary_color' => 'sometimes|nullable',
 
             'domains' => 'nullable|array',
             'domains.*.name' => [
