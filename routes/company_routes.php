@@ -46,6 +46,7 @@ Route::group([
             Route::apiResource('cities', 'CityController');
             Route::apiResource('agents', 'AgentController');
             Route::apiResource('vessels', 'VesselController');
+            Route::apiResource('voyages', 'VoyageController');
             Route::apiResource('bookings', 'BookingController');
             Route::apiResource('countries', 'CountryController');
             Route::apiResource('customers', 'CustomerController');

@@ -32,11 +32,11 @@ class VoyageRequest extends BaseRequest
             'last_call_voyage_copy' => 'nullable|string|max:255',
             'next_call' => 'nullable|date',
             'next_call_voyage_copy' => 'nullable|string|max:255',
-            'routing' => 'nullable|json',
+            'routing' => 'nullable|array',
             'transit_time_routing_ports' => 'nullable|integer|min:0',
-            'additional_ports' => 'nullable|json',
+            'additional_ports' => 'nullable|array',
             'transit_time_additional_ports' => 'nullable|integer|min:0',
-            'via_ports' => 'nullable|json',
+            'via_ports' => 'nullable|array',
             'shipping_instruction' => 'nullable|date',
             'cut_off_time' => 'nullable|date',
             'expected_time_of_arrival' => 'nullable|date',
@@ -47,7 +47,7 @@ class VoyageRequest extends BaseRequest
             'vir_date' => 'nullable|date',
             'custom_file_number' => 'nullable|string|max:255',
             'bond_submitted_date' => 'nullable|date',
-            'slot_partners' => 'nullable|json',
+            'slot_partners' => 'nullable|array',
         ];
     }
 

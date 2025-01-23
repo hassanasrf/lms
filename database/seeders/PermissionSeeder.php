@@ -20,6 +20,7 @@ class PermissionSeeder extends Seeder
             'bank-read', 'bank-create', 'bank-update', 'bank-delete',
             'agent-read', 'agent-create', 'agent-update', 'agent-delete',
             'vessel-read', 'vessel-create', 'vessel-update', 'vessel-delete',
+            'voyage-read', 'voyage-create', 'voyage-update', 'voyage-delete',
             'booking-read', 'booking-create', 'booking-update', 'booking-delete',
             'country-read', 'country-create', 'country-update', 'country-delete',
             'company-read', 'company-create', 'company-update', 'company-delete',

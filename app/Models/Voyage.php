@@ -30,42 +30,18 @@ class Voyage extends Model
     ];
 
     /**
-     * The country associated with the vessel.
+     * The vessel associated with the voyage.
+     */
+    public function vessel()
+    {
+        return $this->belongsTo(Vessel::class);
+    }
+
+    /**
+     * The country associated with the voyage.
      */
     public function country()
     {
-        return $this->belongsTo(Country::class);
+        return $this->belongsTo(Country::class, 'country_id');
     }
-
-    // /**
-    //  * The routing ports associated with the vessel voyage.
-    //  */
-    // public function routingCountries()
-    // {
-    //     return $this->hasManyThrough(Country::class, Routing::class, 'vessel_voy_id', 'id', 'id', 'country_id');
-    // }
-
-    // /**
-    //  * The additional ports associated with the vessel voyage.
-    //  */
-    // public function additionalPorts()
-    // {
-    //     return $this->hasManyThrough(Country::class, AdditionalPort::class, 'vessel_voy_id', 'id', 'id', 'country_id');
-    // }
-
-    // /**
-    //  * The via ports associated with the vessel voyage.
-    //  */
-    // public function viaPorts()
-    // {
-    //     return $this->hasManyThrough(Country::class, ViaPort::class, 'vessel_voy_id', 'id', 'id', 'country_id');
-    // }
-
-    // /**
-    //  * The slot partners associated with the vessel voyage.
-    //  */
-    // public function slotPartners()
-    // {
-    //     return $this->hasMany(SlotPartner::class, 'vessel_voy_id');
-    // }
 }
