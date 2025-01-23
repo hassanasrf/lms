@@ -33,7 +33,8 @@ class DatabaseSeeder extends Seeder
             BankSeeder::class,
             PackageSeeder::class,
             CommoditySeeder::class,
-            VesselVoySeeder::class,
+            VesselsTableSeeder::class,
+            VoyagesTableSeeder::class,
         ]);
     }
 }

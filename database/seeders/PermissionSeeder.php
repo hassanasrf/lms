@@ -19,6 +19,7 @@ class PermissionSeeder extends Seeder
             'role-read', 'role-create', 'role-update', 'role-delete',
             'bank-read', 'bank-create', 'bank-update', 'bank-delete',
             'agent-read', 'agent-create', 'agent-update', 'agent-delete',
+            'vessel-read', 'vessel-create', 'vessel-update', 'vessel-delete',
             'booking-read', 'booking-create', 'booking-update', 'booking-delete',
             'country-read', 'country-create', 'country-update', 'country-delete',
             'company-read', 'company-create', 'company-update', 'company-delete',
@@ -26,7 +27,6 @@ class PermissionSeeder extends Seeder
             'customer-read', 'customer-create', 'customer-update', 'customer-delete',
             'shipping-read', 'shipping-create', 'shipping-update', 'shipping-delete',
             'commodity-read', 'commodity-create', 'commodity-update', 'commodity-delete',
-            'vessel-voy-read', 'vessel-voy-create', 'vessel-voy-update', 'vessel-voy-delete',
             'permission-read', 'permission-create', 'permission-update', 'permission-delete',
             'tagging-point-read', 'tagging-point-create', 'tagging-point-update', 'tagging-point-delete',
         ];

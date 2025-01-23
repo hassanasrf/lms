@@ -45,11 +45,11 @@ Route::group([
             Route::apiResource('banks', 'BankController');
             Route::apiResource('cities', 'CityController');
             Route::apiResource('agents', 'AgentController');
+            Route::apiResource('vessels', 'VesselController');
             Route::apiResource('bookings', 'BookingController');
             Route::apiResource('countries', 'CountryController');
             Route::apiResource('customers', 'CustomerController');
             Route::apiResource('currencies', 'CurrencyController');
-            Route::apiResource('vessel-voys', 'VesselVoyController');
             Route::apiResource('commodities', 'CommodityController');
             Route::apiResource('tagging-points', 'taggingPointController');
             Route::apiResource('shipping-lines', 'ShippingLineController');

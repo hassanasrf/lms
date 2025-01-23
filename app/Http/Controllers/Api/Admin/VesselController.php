@@ -6,19 +6,19 @@ use Exception;
 use App\Models\Vessel;
 use App\Helpers\Constant;
 use Illuminate\Http\Request;
-use App\Http\Requests\VesselVoyRequest;
+use App\Http\Requests\VesselRequest;
 use App\Http\Controllers\BaseController;
-use App\Repository\Contracts\VesselVoyRepositoryInterface;
+use App\Repository\Contracts\VesselRepositoryInterface;
 
-class VesselVoyController extends BaseController
+class VesselController extends BaseController
 {
     public function __construct(
-        public readonly VesselVoyRepositoryInterface $repo)
+        public readonly VesselRepositoryInterface $repo)
     {
-        $this->middleware('permission:vessel-voy-read', ['only' => ['index','show']]);
-        $this->middleware('permission:vessel-voy-create', ['only' => 'store']);
-        $this->middleware('permission:vessel-voy-update', ['only' => 'update']);
-        $this->middleware('permission:vessel-voy-delete', ['only' => 'destroy']);
+        $this->middleware('permission:vessel-read', ['only' => ['index','show']]);
+        $this->middleware('permission:vessel-create', ['only' => 'store']);
+        $this->middleware('permission:vessel-update', ['only' => 'update']);
+        $this->middleware('permission:vessel-delete', ['only' => 'destroy']);
     }
 
     /**
@@ -41,7 +41,7 @@ class VesselVoyController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(VesselVoyRequest $request)
+    public function store(VesselRequest $request)
     {
         try {
             $response = $this->repo->create($request->validated());
@@ -69,7 +69,7 @@ class VesselVoyController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(VesselVoyRequest $request, Vessel $vessel)
+    public function update(VesselRequest $request, Vessel $vessel)
     {
         try {
             $data = $request->validated();

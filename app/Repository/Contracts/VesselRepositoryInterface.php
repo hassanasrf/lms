@@ -3,10 +3,10 @@
 namespace App\Repository\Contracts;
 
 use Illuminate\Http\Request;
-use App\Http\Resources\VesselVoyResource;
+use App\Http\Resources\VesselResource;
 use Illuminate\Database\Eloquent\Model;
 
-interface VesselVoyRepositoryInterface extends EloquentRepositoryInterface
+interface VesselRepositoryInterface extends EloquentRepositoryInterface
 {
     //
 }
