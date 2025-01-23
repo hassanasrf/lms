@@ -11,21 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vessel_voys', function (Blueprint $table) {
+        Schema::create('voyages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->constrained('companies')->cascadeOnDelete();
-            $table->string('vessel_name');
-            $table->foreignId('shipping_line_id')->nullable()->constrained('shipping_lines')->nullOnDelete();
-            $table->foreignId('agent_id')->nullable()->constrained('agents')->nullOnDelete();
-            $table->string('type_of_vessel')->nullable();
-            $table->string('flag')->nullable();
-            $table->decimal('gross_tonnage', 15, 2)->nullable();
-            $table->decimal('net_tonnage', 15, 2)->nullable();
-            $table->string('loa')->nullable(); // Length Overall
-            $table->string('hatch_cover_lids')->nullable();
-            $table->string('imo_number')->nullable();
-            $table->string('call_sign')->nullable();
-            $table->year('build')->nullable();
+            $table->foreignId('vessel_id')->constrained('vessels')->cascadeOnDelete();
 
             // Terminal Info
             $table->string('terminal_name')->nullable();
@@ -70,6 +58,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('vessel_voys');
+        Schema::dropIfExists('voyages');
     }
 };

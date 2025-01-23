@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use Exception;
-use App\Models\VesselVoy;
+use App\Models\Vessel;
 use App\Helpers\Constant;
 use Illuminate\Http\Request;
 use App\Http\Requests\VesselVoyRequest;
@@ -29,7 +29,8 @@ class VesselVoyController extends BaseController
         try {
             $paginate = $request->boolean('paginate', true);
             $perPage = (int) $request->get('perPage', 10);
-            $response = $this->repo->all(paginate: $paginate, perPage: $perPage);
+            $relations = ['shippingLine','agent','voyages'];
+            $response = $this->repo->all(relations: $relations, paginate: $paginate, perPage: $perPage);
 
             return successResponse($response, Constant::MESSAGE_FETCHED, $paginate);
         } catch (Exception $e) {
@@ -54,10 +55,10 @@ class VesselVoyController extends BaseController
     /**
      * Display the specified resource.
      */
-    public function show(VesselVoy $vessel_voy)
+    public function show(Vessel $vessel)
     {
         try {
-            $response = $this->repo->showModel($vessel_voy);
+            $response = $this->repo->showModel($vessel);
             
             return successResponse($response, Constant::MESSAGE_FETCHED);
         } catch (Exception $e) {
@@ -68,11 +69,11 @@ class VesselVoyController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(VesselVoyRequest $request, VesselVoy $vessel_voy)
+    public function update(VesselVoyRequest $request, Vessel $vessel)
     {
         try {
             $data = $request->validated();
-            $response = $this->repo->updateModel($vessel_voy, $data);
+            $response = $this->repo->updateModel($vessel, $data);
 
             return successResponse($response, Constant::MESSAGE_UPDATED);
         } catch (Exception $e) {
@@ -83,10 +84,10 @@ class VesselVoyController extends BaseController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(VesselVoy $vessel_voy)
+    public function destroy(Vessel $vessel)
     {
         try {
-            $this->repo->deleteByModel($vessel_voy);
+            $this->repo->deleteByModel($vessel);
 
             return successResponse(true, Constant::MESSAGE_DELETED);
         } catch (Exception $e) {

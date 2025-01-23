@@ -5,11 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\HasCompany;
 
-class VesselVoy extends Model
+class Voyage extends Model
 {
-    use HasFactory, HasCompany, SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -31,27 +30,11 @@ class VesselVoy extends Model
     ];
 
     /**
-     * The shipping line associated with the vessel voyage.
-     */
-    public function shippingLine()
-    {
-        return $this->belongsTo(ShippingLine::class, 'shipping_line_id');
-    }
-
-    /**
-     * The agent associated with the vessel voyage.
-     */
-    public function agent()
-    {
-        return $this->belongsTo(Agent::class, 'agent_id');
-    }
-
-    /**
-     * The country associated with the vessel voyage.
+     * The country associated with the vessel.
      */
     public function country()
     {
-        return $this->belongsTo(Country::class, 'country_id');
+        return $this->belongsTo(Country::class);
     }
 
     // /**
