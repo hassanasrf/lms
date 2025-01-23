@@ -52,7 +52,7 @@ Route::group([
             Route::apiResource('customers', 'CustomerController');
             Route::apiResource('currencies', 'CurrencyController');
             Route::apiResource('commodities', 'CommodityController');
-            Route::apiResource('tagging-points', 'taggingPointController');
+            Route::apiResource('tagging-points', 'TaggingPointController');
             Route::apiResource('shipping-lines', 'ShippingLineController');
             Route::apiResource('permissions', 'PermissionController')->except(['index']);
 
