@@ -18,7 +18,7 @@ class VesselsTableSeeder extends Seeder
                 'vessel_name' => 'Evergreen Voyager',
                 'shipping_line_id' => 1,
                 'agent_id' => 1,
-                'type_of_vessel' => 'Container Ship',
+                'type_of_vessel' => 'Container',
                 'flag' => 'Panama',
                 'gross_tonnage' => 75000.00,
                 'net_tonnage' => 40000.00,
