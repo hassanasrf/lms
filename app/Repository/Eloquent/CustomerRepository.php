@@ -3,6 +3,7 @@
 namespace App\Repository\Eloquent;
 
 use App\Models\Customer;
+use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Resources\CustomerResource;
 use App\Repository\Contracts\CustomerRepositoryInterface;
