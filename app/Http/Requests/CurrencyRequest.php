@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\BaseRequest;
-use Illuminate\Routing\Route;
+use Illuminate\Validation\Rule;
 
 class CurrencyRequest extends BaseRequest
 {
@@ -20,9 +20,21 @@ class CurrencyRequest extends BaseRequest
      */
     public function rules(): array
     {
+        $currencyId = $this->route('currency'); // Get the currency ID from the route (if updating)
+
         return [
-            'name' => ['required', 'string', 'max:255', 'unique:currencies,name'],
-            'code' => ['required', 'string', 'size:3', 'unique:currencies,code'],
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('currencies', 'name')->ignore($currencyId),
+            ],
+            'code' => [
+                'required',
+                'string',
+                'size:3',
+                Rule::unique('currencies', 'code')->ignore($currencyId),
+            ],
         ];
     }
 
