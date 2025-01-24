@@ -43,6 +43,7 @@ Route::group([
             Route::apiResource('users', 'UserController');
             Route::apiResource('roles', 'RoleController');
             Route::apiResource('cities', 'CityController');
+            Route::apiResource('admins', 'AdminController');
             Route::apiResource('companies', 'CompanyController');
             Route::apiResource('countries', 'CountryController');
             Route::apiResource('currencies', 'CurrencyController');
