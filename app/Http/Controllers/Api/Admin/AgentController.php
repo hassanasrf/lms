@@ -57,7 +57,7 @@ class AgentController extends BaseController
     public function show(Agent $agent)
     {
         try {
-            $response = $this->repo->showModel($city);
+            $response = $this->repo->showModel($agent);
             
             return successResponse($response, Constant::MESSAGE_FETCHED);
         } catch (Exception $e) {
@@ -72,7 +72,7 @@ class AgentController extends BaseController
     {
         try {
             $data = $request->validated();
-            $response = $this->repo->updateModel($city, $data);
+            $response = $this->repo->updateModel($agent, $data);
 
             return successResponse($response, Constant::MESSAGE_UPDATED);
         } catch (Exception $e) {
@@ -86,7 +86,7 @@ class AgentController extends BaseController
     public function destroy(Agent $agent)
     {
         try {
-            $this->repo->deleteByModel($city);
+            $this->repo->deleteByModel($agent);
 
             return successResponse(true, Constant::MESSAGE_DELETED);
         } catch (Exception $e) {

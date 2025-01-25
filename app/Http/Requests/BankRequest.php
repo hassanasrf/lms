@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\BaseRequest;
-use Illuminate\Routing\Route;
+use Illuminate\Validation\Rule;
 
 class BankRequest extends BaseRequest
 {
@@ -21,6 +21,7 @@ class BankRequest extends BaseRequest
     public function rules(): array
     {
         $companyId = auth()->user()->company_id;
+        $bankId = $this->route('bank');
 
         return [
             'type' => 'nullable|string|max:255',
@@ -40,8 +41,18 @@ class BankRequest extends BaseRequest
                 'exists:countries,id,company_id,' . $companyId,
             ],
             'title' => 'required|string|max:255',
-            'account_number' => 'required|string|max:50|unique:banks,account_number',
-            'iban_number' => 'nullable|string|max:50|unique:banks,iban_number',
+            'account_number' => [
+                'required',
+                'string',
+                'max:50',
+                Rule::unique('banks', 'account_number')->ignore($bankId), // Ignore unique check if updating the same record
+            ],
+            'iban_number' => [
+                'nullable',
+                'string',
+                'max:50',
+                Rule::unique('banks', 'iban_number')->ignore($bankId), // Ignore unique check if updating the same record
+            ],
             'swift_code' => 'nullable|string|max:20',
             'account_type' => 'required|string|max:50',
             'currency' => 'required|string|max:10',
