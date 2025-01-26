@@ -27,7 +27,7 @@ class BankSeeder extends Seeder
                 'iban_number' => 'PK36NBPA9876543210',
                 'swift_code' => 'NBPKKHI',
                 'account_type' => 'Savings',
-                'currency' => 'PKR',
+                'currency_id' => 1,
             ],
             [
                 'company_id' => 2,
@@ -43,7 +43,7 @@ class BankSeeder extends Seeder
                 'iban_number' => 'PK36HBLA1234567890',
                 'swift_code' => 'HBLPKHI',
                 'account_type' => 'Current',
-                'currency' => 'USD',
+                'currency_id' => 2,
             ],
         ];
 
