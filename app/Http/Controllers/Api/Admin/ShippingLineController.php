@@ -29,7 +29,8 @@ class ShippingLineController extends BaseController
         try {
             $paginate = $request->boolean('paginate', true);
             $perPage = (int) $request->get('perPage', 10);
-            $response = $this->repo->all(paginate: $paginate, perPage: $perPage);
+            $relations = ['agents','banks'];
+            $response = $this->repo->all(relations: $relations, paginate: $paginate, perPage: $perPage);
 
             return successResponse($response, Constant::MESSAGE_FETCHED, $paginate);
         } catch (Exception $e) {
@@ -43,7 +44,7 @@ class ShippingLineController extends BaseController
     public function store(ShippingLineRequest $request)
     {
         try {
-            $response = $this->repo->create($request->validated());
+            $response = $this->repo->createShippingLine($request->validated());
 
             return successResponse($response, Constant::MESSAGE_CREATED);
         } catch (Exception $e) {
@@ -57,7 +58,8 @@ class ShippingLineController extends BaseController
     public function show(ShippingLine $shipping_line)
     {
         try {
-            $response = $this->repo->showModel($shipping_line);
+            $relations = ['agents','banks'];
+            $response = $this->repo->showModel($shipping_line, $relations);
             
             return successResponse($response, Constant::MESSAGE_FETCHED);
         } catch (Exception $e) {
@@ -72,7 +74,7 @@ class ShippingLineController extends BaseController
     {
         try {
             $data = $request->validated();
-            $response = $this->repo->updateModel($shipping_line, $data);
+            $response = $this->repo->updateShippingLine($shipping_line, $data);
 
             return successResponse($response, Constant::MESSAGE_UPDATED);
         } catch (Exception $e) {

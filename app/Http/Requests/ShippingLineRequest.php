@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\BaseRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Routing\Route;
 
 class ShippingLineRequest extends BaseRequest
@@ -22,18 +23,29 @@ class ShippingLineRequest extends BaseRequest
      */
     public function rules()
     {
+        $companyId = auth()->user()->company_id;
+        $bankId = $this->route('bank');
+
         return [
             'line_name' => 'required|string|max:255',
-            'local_agent' => 'required|string|max:255',
+            'agent_ids' => [
+                'nullable',
+                'array',
+                Rule::exists('agents', 'id')->where('company_id', $companyId),
+            ],
             'owner' => 'required|string|max:255',
             'address' => 'required|string',
             'contact_person_name' => 'required|string|max:255',
             'tel' => 'nullable|string|max:20',
             'cell' => 'nullable|string|max:20',
             'fax' => 'nullable|string|max:20',
-            'bank_details' => 'nullable|json', // Ensuring bank details is a valid JSON
+            'bank_ids' => [
+                'nullable', 
+                'array',
+                Rule::exists('banks', 'id')->where('company_id', $companyId),
+            ],
             'payment_type' => 'required|in:Cash,Cheque,Pay Order,Online',
-            'credit_period' => 'required|integer|min:1', // Ensure credit period is a positive integer
+            'credit_period' => 'required|integer|min:1',
         ];
     }
 
@@ -46,14 +58,14 @@ class ShippingLineRequest extends BaseRequest
     {
         return [
             'line_name' => 'line name',
-            'local_agent' => 'local agent',
+            'agent_ids' => 'local agent IDs',
             'owner' => 'owner',
             'address' => 'address',
             'contact_person_name' => 'contact person name',
             'tel' => 'telephone number',
             'cell' => 'cell number',
             'fax' => 'fax number',
-            'bank_details' => 'bank details',
+            'bank_ids' => 'bank IDs',
             'payment_type' => 'payment type',
             'credit_period' => 'credit period',
         ];
@@ -68,7 +80,8 @@ class ShippingLineRequest extends BaseRequest
     {
         return [
             'line_name.required' => 'The line name is required.',
-            'local_agent.required' => 'The local agent is required.',
+            'agent_ids.array' => 'The local agent IDs must be an array.',
+            'agent_ids.exists' => 'One or more selected local agents are invalid.',
             'owner.required' => 'The owner is required.',
             'address.required' => 'The address is required.',
             'contact_person_name.required' => 'The contact person name is required.',
@@ -77,6 +90,8 @@ class ShippingLineRequest extends BaseRequest
             'credit_period.required' => 'The credit period is required.',
             'credit_period.integer' => 'The credit period must be an integer.',
             'credit_period.min' => 'The credit period must be at least 1 day.',
+            'bank_ids.array' => 'The bank IDs must be an array.',
+            'bank_ids.exists' => 'One or more selected bank IDs are invalid.',
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
@@ -29,4 +30,13 @@ class Agent extends Model
         'email_ids' => 'array',
         'ports' => 'array',
     ];
+
+
+    /**
+     * Get the shipping lines associated with the agent.
+     */
+    public function shippingLines(): BelongsToMany
+    {
+        return $this->belongsToMany(ShippingLine::class, 'shipping_line_agent');
+    }
 }
