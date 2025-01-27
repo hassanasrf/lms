@@ -15,16 +15,14 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id')->constrained('companies')->cascadeOnDelete();
             $table->string('line_name');
-            $table->string('local_agent');
-            $table->string('owner');
-            $table->text('address');
+            $table->string('owner')->nullable();
+            $table->text('address')->nullable();
             $table->string('contact_person_name');
-            $table->string('tel');
-            $table->string('cell');
-            $table->string('fax');
-            $table->json('bank_details'); // Store bank details as JSON
-            $table->enum('payment_type', ['Cash', 'Cheque', 'Pay Order', 'Online']);
-            $table->integer('credit_period'); // in days
+            $table->string('tel')->nullable();
+            $table->string('cell')->nullable();
+            $table->string('fax')->nullable();
+            $table->string('payment_type')->nullable();
+            $table->integer('credit_period')->nullable(); // in days
             $table->timestamps();
             $table->softDeletes();
         });

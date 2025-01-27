@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
@@ -24,6 +25,23 @@ class ShippingLine extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'bank_details' => 'array',
+        //
     ];
+
+
+    /**
+     * Get the banks associated with the shipping line.
+     */
+    public function banks(): BelongsToMany
+    {
+        return $this->belongsToMany(Bank::class, 'shipping_line_bank');
+    }
+
+    /**
+     * Get the agents associated with the shipping line.
+     */
+    public function agents(): BelongsToMany
+    {
+        return $this->belongsToMany(Agent::class, 'shipping_line_agent');
+    }
 }
