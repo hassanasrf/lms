@@ -4,7 +4,6 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\BaseRequest;
 use Illuminate\Validation\Rule;
-use Illuminate\Routing\Route;
 
 class ShippingLineRequest extends BaseRequest
 {

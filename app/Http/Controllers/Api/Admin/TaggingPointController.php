@@ -29,7 +29,8 @@ class TaggingPointController extends BaseController
         try {
             $paginate = $request->boolean('paginate', true);
             $perPage = (int) $request->get('perPage', 10);
-            $response = $this->repo->all(paginate: $paginate, perPage: $perPage);
+            $relations = ['country','city'];
+            $response = $this->repo->all(relations: $relations, paginate: $paginate, perPage: $perPage);
 
             return successResponse($response, Constant::MESSAGE_FETCHED, $paginate);
         } catch (Exception $e) {
@@ -57,7 +58,8 @@ class TaggingPointController extends BaseController
     public function show(TaggingPoint $tagging_point)
     {
         try {
-            $response = $this->repo->showModel($tagging_point);
+            $relations = ['country','city'];
+            $response = $this->repo->showModel($tagging_point, $relations);
             
             return successResponse($response, Constant::MESSAGE_FETCHED);
         } catch (Exception $e) {

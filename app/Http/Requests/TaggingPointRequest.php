@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\BaseRequest;
-use Illuminate\Routing\Route;
+use Illuminate\Validation\Rule;
 
 class TaggingPointRequest extends BaseRequest
 {
@@ -25,21 +25,17 @@ class TaggingPointRequest extends BaseRequest
         return [
             'country_id' => [
                 'nullable',
-                'exists:countries,id,company_id,' . $companyId,
+                Rule::exists('countries', 'id')->where('company_id', $companyId),
             ],
             'city_id' => [
                 'nullable',
-                'exists:cities,id,company_id,' . $companyId,
+                Rule::exists('cities', 'id')->where('company_id', $companyId),
             ],
-            'type' => 'required|string|in:City,Terminal,Yard',
             'port_name' => 'required|string|max:255',
-            'terminal_name' => 'required|string|max:255',
-            'yard_name' => 'required|string|max:255',
-            'bonded_area' => 'required|boolean',
-            'loading_point' => 'required|string|max:20',
-            'warehouse' => 'required|string|max:20',
-            'sales_tax_percentage' => 'required|numeric|min:0|max:100',
-            'wht_percentage' => 'required|numeric|min:0|max:100',
+            'type' => 'required|string|in:city,terminal,yard,loading_point,warehouse',
+            'value' => 'required|string|max:255',
+            'sales_tax' => 'required|numeric|min:0|max:100',
+            'wht' => 'required|numeric|min:0|max:100',
         ];
     }
 
