@@ -18,59 +18,61 @@ return new class extends Migration
             $table->foreignId('packing_id')->nullable()->constrained('packages')->nullOnDelete();
             $table->string('name');
             $table->string('hs_code')->nullable();
-            $table->boolean('dangerous_cargo')->default(false); // Use boolean instead of enum
+            $table->boolean('dangerous_cargo')->default(false);
             $table->string('undg_code')->nullable();
             $table->string('dg_class')->nullable();
             $table->string('dg_chapter')->nullable();
 
             // Import
-            $table->decimal('cargo_value', 15, 2)->nullable();
-            $table->string('connected_currency')->nullable(); // e.g., USD
-            $table->decimal('connected_packing', 15, 2)->nullable(); // e.g., based on Kgs
+            $table->string('cargo_value')->nullable();
 
             // Landing Charges
-            $table->decimal('landing_charges_percentage', 5, 2)->nullable(); // Example: 1 for 1%
-            $table->string('landing_charges_type')->nullable(); // Replace enum with string
+            $table->string('landing_charges')->nullable();
+            $table->string('landing_charges_type')->nullable();
 
             // Insurance
-            $table->decimal('insurance_percentage', 5, 2)->nullable(); // Example: 1 for 1%
-            $table->string('insurance_type')->nullable(); // Replace enum with string
+            $table->string('insurance')->nullable();
+            $table->string('insurance_type')->nullable();
 
             // Customs Duties
-            $table->decimal('custom_duty_percentage', 5, 2)->nullable(); // Example: 0
-            $table->string('custom_duty_type')->nullable(); // Replace enum with string
+            $table->string('custom_duty')->nullable();
+            $table->string('custom_duty_type')->nullable();
 
             // Sales Tax
-            $table->decimal('sales_tax_percentage', 5, 2)->nullable(); // Example: 18 for 18%
-            $table->string('sales_tax_type')->nullable(); // Replace enum with string
+            $table->string('sales_tax')->nullable(); 
+            $table->string('sales_tax_type')->nullable();
 
             // Value Addition Tax
-            $table->decimal('vat_percentage', 5, 2)->nullable(); // Example: 3 for 3%
-            $table->string('vat_type')->nullable(); // Replace enum with string
+            $table->string('vat')->nullable();
+            $table->string('vat_type')->nullable();
 
             // Additional Custom Duty
-            $table->decimal('additional_custom_duty_percentage', 5, 2)->nullable(); // Example: 2 for 2%
-            $table->string('additional_custom_duty_type')->nullable(); // Replace enum with string
+            $table->string('additional_custom_duty')->nullable();
+            $table->string('additional_custom_duty_type')->nullable();
 
             // Regulatory Duty
-            $table->decimal('regulatory_duty_percentage', 5, 2)->nullable(); // Example: 0
-            $table->string('regulatory_duty_type')->nullable(); // Replace enum with string
+            $table->string('regulatory_duty')->nullable();
+            $table->string('regulatory_duty_type')->nullable();
 
             // Additional Income Tax
-            $table->decimal('additional_income_tax_percentage', 5, 2)->nullable(); // Example: 2 for 2%
-            $table->string('additional_income_tax_type')->nullable(); // Replace enum with string
+            $table->string('additional_income_tax')->nullable();
+            $table->string('additional_income_tax_type')->nullable();
 
             // Excise Duty
-            $table->decimal('excise_duty_percentage', 5, 2)->nullable(); // Example: 1.24 for 1.24%
-            $table->string('excise_duty_type')->nullable(); // Replace enum with string
+            $table->string('excise_duty')->nullable();
+            $table->string('excise_duty_type')->nullable();
 
             // Stamp Duty
-            $table->decimal('stamp_duty_value', 15, 2)->nullable(); // Example: 1000
-            $table->string('stamp_duty_type')->nullable(); // Replace enum with string
+            $table->decimal('stamp_duty_value', 15, 2)->nullable();
+            $table->string('stamp_duty_type')->nullable();
 
             // Export
-            $table->decimal('export_value_per_kg', 15, 2)->nullable();
-            $table->string('export_currency')->nullable(); // Replace enum with string (e.g., USD, PKR)
+            $table->string('export_value')->nullable();
+            $table->string('export_value_type')->nullable();
+            $table->string('export_currency')->nullable();
+
+            // Net Total
+            $table->string('net_total')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
