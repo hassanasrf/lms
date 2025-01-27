@@ -29,7 +29,7 @@ class CustomerController extends BaseController
         try {
             $paginate = $request->boolean('paginate', true);
             $perPage = (int) $request->get('perPage', 10);
-            $relations = ['customerTypes'];
+            $relations = ['country','city','customerTypes'];
             $response = $this->repo->all(relations: $relations, paginate: $paginate, perPage: $perPage);
 
             return successResponse($response, Constant::MESSAGE_FETCHED, $paginate);
@@ -58,7 +58,7 @@ class CustomerController extends BaseController
     public function show(Customer $customer)
     {
         try {
-            $relations = ['customerTypes'];
+            $relations = ['country','city','customerTypes'];
             $response = $this->repo->showModel($customer, $relations);
             
             return successResponse($response, Constant::MESSAGE_FETCHED);
