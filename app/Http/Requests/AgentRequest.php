@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\BaseRequest;
-use Illuminate\Routing\Route;
+use Illuminate\Validation\Rule;
 
 class AgentRequest extends BaseRequest
 {
@@ -23,20 +23,15 @@ class AgentRequest extends BaseRequest
         $companyId = auth()->user()->company_id;
 
         return [
-            // 'company_id' => 'required|exists:companies,id',
-            'shipping_line_id' => [
-                'required',
-                'exists:shipping_lines,id,company_id,' . $companyId,
-            ],
             'name' => 'required|string|max:255',
             'address' => 'nullable|string|max:500',
-            'city_id' => [
-                'nullable',
-                'exists:cities,id,company_id,' . $companyId,
-            ],
             'country_id' => [
                 'nullable',
-                'exists:countries,id,company_id,' . $companyId,
+                Rule::exists('countries', 'id')->where('company_id', $companyId),
+            ],
+            'city_id' => [
+                'nullable',
+                Rule::exists('cities', 'id')->where('company_id', $companyId),
             ],
             'contact_persons' => 'nullable|array',
             'contact_persons.*' => 'nullable|string|max:255',
@@ -44,8 +39,11 @@ class AgentRequest extends BaseRequest
             'contact_numbers.*' => 'nullable|string|max:20',
             'email_ids' => 'nullable|array',
             'email_ids.*' => 'nullable|email|max:255',
-            'ports' => 'nullable|array',
-            'ports.*' => 'nullable|string|max:255',
+            'tagging_point_ids' => [
+                'nullable',
+                'array',
+                Rule::exists('tagging_points', 'id')->where('company_id', $companyId),
+            ],
         ];
     }
 
@@ -55,8 +53,6 @@ class AgentRequest extends BaseRequest
     public function messages(): array
     {
         return [
-            // 'company_id.required' => 'The company ID is required.',
-            // 'company_id.exists' => 'The selected company ID does not exist.',
             'name.required' => 'The agent name is required.',
             'name.string' => 'The agent name must be a string.',
             'name.max' => 'The agent name may not be greater than 255 characters.',
@@ -73,9 +69,8 @@ class AgentRequest extends BaseRequest
             'email_ids.array' => 'The email IDs field must be an array.',
             'email_ids.*.email' => 'Each email ID must be a valid email address.',
             'email_ids.*.max' => 'Each email ID may not be greater than 255 characters.',
-            'ports.array' => 'The ports field must be an array.',
-            'ports.*.string' => 'Each port must be a string.',
-            'ports.*.max' => 'Each port may not be greater than 255 characters.',
+            'tagging_point_ids.array' => 'The tagging points field must be an array.',
+            'tagging_point_ids.*.exists' => 'Each tagging point must exist in the company.',
         ];
     }
 }

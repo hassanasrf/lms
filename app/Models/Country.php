@@ -34,4 +34,12 @@ class Country extends Model
     {
         return $this->hasMany(City::class);
     }
+
+    /**
+     * Get all the agents for the country.
+     */
+    public function agents(): HasMany
+    {
+        return $this->hasMany(Agent::class);
+    }
 }

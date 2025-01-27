@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('bank_customer_type', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('bank_id')->constrained()->onDelete('cascade');
-            $table->foreignId('customer_type_id')->constrained()->onDelete('cascade');
+            $table->foreignId('bank_id')->constrained('banks')->cascadeOnDelete();
+            $table->foreignId('customer_type_id')->constrained('customer_types')->cascadeOnDelete();
             $table->timestamps();
         });
     }

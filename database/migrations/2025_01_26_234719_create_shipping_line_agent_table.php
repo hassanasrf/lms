@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('shipping_line_agent', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('shipping_line_id')->constrained()->onDelete('cascade');
-            $table->foreignId('agent_id')->constrained()->onDelete('cascade');
+            $table->foreignId('shipping_line_id')->constrained('shipping_lines')->cascadeOnDelete();
+            $table->foreignId('agent_id')->constrained('agents')->cascadeOnDelete();
             $table->timestamps();
         });
     }

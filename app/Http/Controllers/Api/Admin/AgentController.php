@@ -29,7 +29,8 @@ class AgentController extends BaseController
         try {
             $paginate = $request->boolean('paginate', true);
             $perPage = (int) $request->get('perPage', 10);
-            $response = $this->repo->all(paginate: $paginate, perPage: $perPage);
+            $relations = ['country','city','taggingPoints'];
+            $response = $this->repo->all(relations: $relations, paginate: $paginate, perPage: $perPage);
 
             return successResponse($response, Constant::MESSAGE_FETCHED, $paginate);
         } catch (Exception $e) {
@@ -43,7 +44,7 @@ class AgentController extends BaseController
     public function store(AgentRequest $request)
     {
         try {
-            $response = $this->repo->create($request->validated());
+            $response = $this->repo->createAgent($request->validated());
 
             return successResponse($response, Constant::MESSAGE_CREATED);
         } catch (Exception $e) {
@@ -57,7 +58,8 @@ class AgentController extends BaseController
     public function show(Agent $agent)
     {
         try {
-            $response = $this->repo->showModel($agent);
+            $relations = ['country','city','taggingPoints'];
+            $response = $this->repo->showModel($agent, $relations);
             
             return successResponse($response, Constant::MESSAGE_FETCHED);
         } catch (Exception $e) {
@@ -72,7 +74,7 @@ class AgentController extends BaseController
     {
         try {
             $data = $request->validated();
-            $response = $this->repo->updateModel($agent, $data);
+            $response = $this->repo->updateAgent($agent, $data);
 
             return successResponse($response, Constant::MESSAGE_UPDATED);
         } catch (Exception $e) {
