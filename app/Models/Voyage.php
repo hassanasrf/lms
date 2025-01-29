@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,25 +25,46 @@ class Voyage extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'routing' => 'array',
-        'additional_ports' => 'array',
-        'via_ports' => 'array',
         'slot_partners' => 'array',
     ];
 
     /**
      * The vessel associated with the voyage.
      */
-    public function vessel()
+    public function vessel(): BelongsTo
     {
         return $this->belongsTo(Vessel::class);
     }
 
     /**
-     * The country associated with the voyage.
+     * The teminal associated with the voyage.
      */
-    public function country()
+    public function terminal(): BelongsTo
     {
-        return $this->belongsTo(Country::class, 'country_id');
+        return $this->belongsTo(TaggingPoint::class, 'terminal_id');
+    }
+
+    /**
+     * The last call associated with the voyage.
+     */
+    public function lastCall(): BelongsTo
+    {
+        return $this->belongsTo(TaggingPoint::class, 'last_call_id');
+    }
+
+    /**
+     * The next call associated with the voyage.
+     */
+    public function nextCall(): BelongsTo
+    {
+        return $this->belongsTo(TaggingPoint::class, 'next_call_id');
+    }
+
+    /**
+     * Get the routings associated with the voyage.
+     */
+    public function routings(): BelongsToMany
+    {
+        return $this->belongsToMany(TaggingPoint::class, 'voyage_routing', 'voyage_id', 'routing_id');
     }
 }
