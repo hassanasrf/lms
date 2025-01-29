@@ -3,8 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
-use App\Models\Booking;
+use Carbon\Carbon;
 
 class BookingSeeder extends Seeder
 {
@@ -13,34 +14,31 @@ class BookingSeeder extends Seeder
      */
     public function run(): void
     {
-        $bookings = [
+         DB::table('bookings')->insert([
             [
                 'company_id' => 1,
                 'customer_id' => 1,
-                'service_type' => '1',
-                'shipment_type' => 'By Sea',
-                'number_of_containers' => 2,
-                'bulk_details' => null,
-                'other_details' => null,
-                'loading_point' => 'Karachi Port',
+                'shipment_type' => 'Bulk',
+                'number_of_containers' => 1,
+                'bulk_details' => 'Grains, Wheat',
+                'other_details' => 'No additional details',
+                'loading_point_id' => 1,
                 'commodity_id' => 1,
-                'destination_country_id' => 2,
-                'licence_name' => 'Licence 001',
-                'mailing_details' => 'Address, Email, Contact',
-                'shipping_line_id' => 3,
-                'vessel_name_voy' => 'Vessel XYZ',
-                'eta' => now()->addDays(10),
+                'destination_country_id' => 1,
+                'licence_name' => 'ABC License',
+                'mailing_details' => '123, Street Name, City, Country',
+                'shipping_line_id' => 1,
+                'vessel_id' => 1,
+                'eta' => Carbon::parse('2024-05-01'),
                 'sgs_required' => true,
-                'fumigation_required' => true,
-                'fumigation_certificate_required' => false,
-                'document_type' => 'CNF',
+                'fumigation_required' => false,
+                'fumigation_certificate_required' => true,
+                'document_type' => 'Bill of Lading',
                 'loading_person' => 'John Doe',
-                'loading_person_cell' => '123456789',
+                'loading_person_cell' => '+1234567890',
+                'created_at' => now(),
+                'updated_at' => now(),
             ]
-        ];
-
-        foreach ($bookings as $booking) {
-            Booking::create($booking);
-        }
+        ]);
     }
 }

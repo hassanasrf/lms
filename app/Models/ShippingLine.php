@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasCompany;
@@ -43,5 +44,13 @@ class ShippingLine extends Model
     public function agents(): BelongsToMany
     {
         return $this->belongsToMany(Agent::class, 'shipping_line_agent');
+    }
+
+    /**
+     * Get the bookings for the shipping line.
+     */
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(Booking::class);
     }
 }

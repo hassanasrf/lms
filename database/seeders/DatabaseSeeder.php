@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder
             CommoditySeeder::class,
             VesselsTableSeeder::class,
             VoyagesTableSeeder::class,
+            BookingSeeder::class,
         ]);
     }
 }

@@ -29,7 +29,8 @@ class BookingController extends BaseController
         try {
             $paginate = $request->boolean('paginate', true);
             $perPage = (int) $request->get('perPage', 10);
-            $response = $this->repo->all(paginate: $paginate, perPage: $perPage);
+            $relations = ['customer','serviceTypes','loadingPoint','commodity','destinationCountry','shippingLine','vessel.voyages'];
+            $response = $this->repo->all(relations: $relations, paginate: $paginate, perPage: $perPage);
 
             return successResponse($response, Constant::MESSAGE_FETCHED, $paginate);
         } catch (Exception $e) {
@@ -43,7 +44,7 @@ class BookingController extends BaseController
     public function store(BookingRequest $request)
     {
         try {
-            $response = $this->repo->create($request->validated());
+            $response = $this->repo->createBooking($request->validated());
 
             return successResponse($response, Constant::MESSAGE_CREATED);
         } catch (Exception $e) {
@@ -57,7 +58,8 @@ class BookingController extends BaseController
     public function show(Booking $booking)
     {
         try {
-            $response = $this->repo->showModel($booking);
+            $relations = ['customer','serviceTypes','loadingPoint','commodity','destinationCountry','shippingLine','vessel.voyages'];
+            $response = $this->repo->showModel($booking, $relations);
             
             return successResponse($response, Constant::MESSAGE_FETCHED);
         } catch (Exception $e) {
@@ -72,7 +74,7 @@ class BookingController extends BaseController
     {
         try {
             $data = $request->validated();
-            $response = $this->repo->updateModel($booking, $data);
+            $response = $this->repo->updateBooking($booking, $data);
 
             return successResponse($response, Constant::MESSAGE_UPDATED);
         } catch (Exception $e) {

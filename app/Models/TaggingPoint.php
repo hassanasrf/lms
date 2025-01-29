@@ -21,17 +21,11 @@ class TaggingPoint extends Model
      */
     protected $guarded = [];
 
-    /**
-     * Get the city that owns the TaggingPoint.
-     */
     public function city(): BelongsTo
     {
         return $this->belongsTo(City::class);
     }
 
-    /**
-     * Get the country that owns the TaggingPoint.
-     */
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class);
@@ -55,5 +49,15 @@ class TaggingPoint extends Model
     public function voyages(): BelongsToMany
     {
         return $this->belongsToMany(Voyage::class, 'voyage_routing', 'routing_id', 'voyage_id');
+    }
+
+    public function loadingBookings(): HasMany
+    {
+        return $this->hasMany(Booking::class, 'loading_point_id');
+    }
+
+    public function destinationBookings(): HasMany
+    {
+        return $this->hasMany(Booking::class, 'destination_country_id');
     }
 }
