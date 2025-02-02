@@ -47,8 +47,7 @@ class BookingController extends BaseController
             $response = $this->repo->createBooking($request->validated());
 
             return successResponse($response, Constant::MESSAGE_CREATED);
-        } catch (\Exception $e) {
-            dd($e);
+        } catch (Exception $e) {
             return errorResponse($e->getMessage(),$e->getCode());
         }
     }
