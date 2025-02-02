@@ -24,25 +24,55 @@ class ShippingLineRepository extends BaseRepository implements ShippingLineRepos
 
     public function createShippingLine(array $data): ShippingLineResource
     {
-        $shippingLine = $this->create(Arr::except($data, ['agent_ids','bank_ids']));    
-        $shippingLine->agents()->attach(@$data['agent_ids']);
-        $shippingLine->banks()->attach(@$data['bank_ids']);
+        return DB::transaction(function () use ($data) {
+            $shippingLine = $this->create(Arr::except($data, ['agents','bank_ids']));    
+            
+            if (!empty($data['agents'])) {
+                $pivotData = collect($data['agents'])->mapWithKeys(function($agent) {
+                    return [
+                        $agent['agent_id'] => [
+                            'payment_type' => $agent['payment_type'] ?? null,
+                            'credit_type'  => $agent['credit_type'] ?? null,
+                        ]
+                    ];
+                })->toArray();
 
-        return $this->resource::make($shippingLine);
+                // Attach all agents with pivot data at once
+                $shippingLine->agents()->attach($pivotData);
+            }
+
+            $shippingLine->banks()->attach(@$data['bank_ids']);
+
+            return $this->resource::make($shippingLine);
+        });
     }
 
     public function updateShippingLine(Model $model, array $data): bool
     {
-        if (isset($data['bank_ids'])) {
-            $model->banks()->sync($data['bank_ids']);
-        }
+        return DB::transaction(function () use ($model, $data) {
 
-        if (isset($data['agent_ids'])) {
-            $model->agents()->sync($data['agent_ids']);
-        }
+            if (isset($data['bank_ids'])) {
+                $model->banks()->sync($data['bank_ids']);
+            }
 
-        $model->update(Arr::except($data, ['agent_ids','bank_ids']));
-        return true;
+            // Sync agents with pivot data
+            if (isset($data['agents'])) {
+                $pivotData = collect($data['agents'])->mapWithKeys(function ($agent) {
+                    return [
+                        $agent['agent_id'] => [
+                            'payment_type' => $agent['payment_type'] ?? null,
+                            'credit_type'  => $agent['credit_type'] ?? null,
+                        ]
+                    ];
+                })->toArray();
+
+                $model->agents()->sync($pivotData);
+            }
+
+            $model->update(Arr::except($data, ['agents', 'bank_ids']));
+
+            return true;
+        });
     }
 
 }

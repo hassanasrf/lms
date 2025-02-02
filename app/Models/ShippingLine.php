@@ -43,7 +43,8 @@ class ShippingLine extends Model
      */
     public function agents(): BelongsToMany
     {
-        return $this->belongsToMany(Agent::class, 'shipping_line_agent');
+        return $this->belongsToMany(Agent::class, 'shipping_line_agent')
+            ->withPivot('payment_type', 'credit_type');
     }
 
     /**

@@ -16,13 +16,10 @@ return new class extends Migration
             $table->foreignId('company_id')->constrained('companies')->cascadeOnDelete();
             $table->string('line_name');
             $table->string('owner')->nullable();
-            $table->text('address')->nullable();
             $table->string('contact_person_name');
             $table->string('tel')->nullable();
             $table->string('cell')->nullable();
             $table->string('fax')->nullable();
-            $table->string('payment_type')->nullable();
-            $table->integer('credit_period')->nullable(); // in days
             $table->timestamps();
             $table->softDeletes();
         });

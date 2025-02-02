@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('shipping_line_id')->constrained('shipping_lines')->cascadeOnDelete();
             $table->foreignId('agent_id')->constrained('agents')->cascadeOnDelete();
+            $table->string('payment_type')->nullable();
+            $table->string('credit_type')->nullable();
             $table->timestamps();
         });
     }
