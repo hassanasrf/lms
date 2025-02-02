@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('licence_name')->nullable();
             $table->text('mailing_details')->nullable();
             $table->foreignId('shipping_line_id')->constrained('shipping_lines')->cascadeOnDelete();
-            $table->string('vessel_name_voy')->nullable();
+            $table->foreignId('voyage_id')->nullable()->constrained('voyages')->nullOnDelete();
             $table->date('eta')->nullable(); // Estimated Time of Arrival
             $table->boolean('sgs_required')->default(false);
             $table->boolean('fumigation_required')->default(false);

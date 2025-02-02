@@ -29,7 +29,7 @@ class AgentController extends BaseController
         try {
             $paginate = $request->boolean('paginate', true);
             $perPage = (int) $request->get('perPage', 10);
-            $relations = ['country','city','taggingPoints'];
+            $relations = ['country','city','taggingPoints','bank'];
             $response = $this->repo->all(relations: $relations, paginate: $paginate, perPage: $perPage);
 
             return successResponse($response, Constant::MESSAGE_FETCHED, $paginate);
@@ -58,7 +58,7 @@ class AgentController extends BaseController
     public function show(Agent $agent)
     {
         try {
-            $relations = ['country','city','taggingPoints'];
+            $relations = ['country','city','taggingPoints','bank'];
             $response = $this->repo->showModel($agent, $relations);
             
             return successResponse($response, Constant::MESSAGE_FETCHED);

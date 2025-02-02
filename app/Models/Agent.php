@@ -50,6 +50,15 @@ class Agent extends Model
     
 
     /**
+     * Get the bank that owns the agent.
+     */
+    public function bank(): BelongsTo
+    {
+        return $this->belongsTo(Bank::class);
+    }
+    
+
+    /**
      * Get the shipping lines associated with the agent.
      */
     public function shippingLines(): BelongsToMany

@@ -25,6 +25,10 @@ class AgentRequest extends BaseRequest
         return [
             'name' => 'required|string|max:255',
             'address' => 'nullable|string|max:500',
+            'bank_id' => [
+                'nullable',
+                Rule::exists('banks', 'id')->where('company_id', $companyId),
+            ],
             'country_id' => [
                 'nullable',
                 Rule::exists('countries', 'id')->where('company_id', $companyId),
