@@ -69,11 +69,11 @@ class Booking extends Model
     }
 
     /**
-     * Get the vessel associated with the booking.
+     * Get the voyage associated with the booking.
      */
-    public function vessel(): BelongsTo
+    public function voyage(): BelongsTo
     {
-        return $this->belongsTo(Vessel::class);
+        return $this->belongsTo(Voyage::class);
     }
 
     /**

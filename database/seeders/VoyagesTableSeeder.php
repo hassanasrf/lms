@@ -14,6 +14,7 @@ class VoyagesTableSeeder extends Seeder
     public function run(): void
     {
         $voyageId = DB::table('voyages')->insertGetId([
+            'company_id' => 1,
             'vessel_id' => 1,
             'terminal_id' => 1,
             'last_call_id' => 2,

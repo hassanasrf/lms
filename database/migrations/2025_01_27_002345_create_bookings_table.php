@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id')->constrained('companies')->cascadeOnDelete();
             $table->foreignId('customer_id')->constrained('customers')->cascadeOnDelete();
+            $table->string('booking_type')->nullable();
             $table->string('shipment_type')->nullable();
             $table->integer('number_of_containers')->nullable();
             $table->string('bulk_details')->nullable();
@@ -26,7 +27,6 @@ return new class extends Migration
             $table->text('mailing_details')->nullable();
             $table->foreignId('shipping_line_id')->constrained('shipping_lines')->cascadeOnDelete();
             $table->foreignId('voyage_id')->nullable()->constrained('voyages')->nullOnDelete();
-            $table->date('eta')->nullable(); // Estimated Time of Arrival
             $table->boolean('fumigation_required')->default(false);
             $table->boolean('fumigation_certificate_required')->default(false);
             $table->string('document_type')->nullable();

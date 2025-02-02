@@ -52,12 +52,4 @@ class Vessel extends Model
         return $this->hasMany(Voyage::class);
     }
 
-    /**
-     * Get the bookings for the vessel.
-     */
-    public function bookings(): HasMany
-    {
-        return $this->hasMany(Booking::class);
-    }
-
 }

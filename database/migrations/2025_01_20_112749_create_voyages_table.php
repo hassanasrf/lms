@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('voyages', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('company_id')->constrained('companies')->cascadeOnDelete();
             $table->foreignId('vessel_id')->constrained('vessels')->cascadeOnDelete();
 
             // Terminal Info

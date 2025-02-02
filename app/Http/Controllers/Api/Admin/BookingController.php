@@ -29,7 +29,7 @@ class BookingController extends BaseController
         try {
             $paginate = $request->boolean('paginate', true);
             $perPage = (int) $request->get('perPage', 10);
-            $relations = ['customer','serviceTypes','loadingPoint','commodity','destinationCountry','shippingLine','vessel.voyages'];
+            $relations = ['customer','serviceTypes','loadingPoint','commodity','destinationCountry','shippingLine','voyage'];
             $response = $this->repo->all(relations: $relations, paginate: $paginate, perPage: $perPage);
 
             return successResponse($response, Constant::MESSAGE_FETCHED, $paginate);
@@ -47,7 +47,8 @@ class BookingController extends BaseController
             $response = $this->repo->createBooking($request->validated());
 
             return successResponse($response, Constant::MESSAGE_CREATED);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
+            dd($e);
             return errorResponse($e->getMessage(),$e->getCode());
         }
     }
@@ -58,7 +59,7 @@ class BookingController extends BaseController
     public function show(Booking $booking)
     {
         try {
-            $relations = ['customer','serviceTypes','loadingPoint','commodity','destinationCountry','shippingLine','vessel.voyages'];
+            $relations = ['customer','serviceTypes','loadingPoint','commodity','destinationCountry','shippingLine','voyage'];
             $response = $this->repo->showModel($booking, $relations);
             
             return successResponse($response, Constant::MESSAGE_FETCHED);
