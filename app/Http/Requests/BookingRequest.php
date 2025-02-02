@@ -28,6 +28,11 @@ class BookingRequest extends BaseRequest
                 Rule::exists('customers', 'id')->where('company_id', $companyId),
             ],
             'booking_type' => 'nullable|string|max:255',
+            'service_type_ids' => [
+                'nullable', 
+                'array',
+                Rule::exists('service_types', 'id'),
+            ],
             'shipment_type' => 'nullable|string|max:255',
             'number_of_containers' => 'nullable|integer|min:1',
             'bulk_details' => 'nullable|string|max:255',
