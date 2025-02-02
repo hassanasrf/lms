@@ -79,6 +79,11 @@ class Company extends Model
         return $this->hasMany(Subdomain::class);
     }
 
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(Booking::class);
+    }
+
     /**
      * Auto create role and assign all available permissions when a company is created.
      */

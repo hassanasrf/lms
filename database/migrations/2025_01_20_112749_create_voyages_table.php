@@ -16,21 +16,14 @@ return new class extends Migration
             $table->foreignId('vessel_id')->constrained('vessels')->cascadeOnDelete();
 
             // Terminal Info
-            $table->string('terminal_name')->nullable();
-            $table->foreignId('country_id')->nullable()->constrained('countries')->nullOnDelete();
-            $table->string('last_voyage_copy')->nullable();
+            $table->foreignId('terminal_id')->nullable()->constrained('tagging_points')->nullOnDelete();
+            $table->foreignId('last_call_id')->nullable()->constrained('tagging_points')->nullOnDelete();
+            $table->foreignId('next_call_id')->nullable()->constrained('tagging_points')->nullOnDelete();
             $table->string('voyage_number')->nullable();
-            $table->dateTime('last_call')->nullable();
-            $table->string('last_call_voyage_copy')->nullable();
-            $table->dateTime('next_call')->nullable();
-            $table->string('next_call_voyage_copy')->nullable();
 
             // Routing
-            $table->json('routing')->nullable(); // 1st, 2nd, etc., connected to countries
-            $table->integer('transit_time_routing_ports')->nullable();
-            $table->json('additional_ports')->nullable(); // Additional ports (1, 2, etc.)
-            $table->integer('transit_time_additional_ports')->nullable();
-            $table->json('via_ports')->nullable(); // Via ports (1, 2, etc.)
+            $table->foreignId('transit_time_routing_port_id')->nullable()->constrained('tagging_points')->nullOnDelete();
+            $table->string('transit_time_additional_ports')->nullable();
 
             // Timing and Status
             $table->dateTime('shipping_instruction')->nullable();

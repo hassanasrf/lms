@@ -29,7 +29,7 @@ class VoyageController extends BaseController
         try {
             $paginate = $request->boolean('paginate', true);
             $perPage = (int) $request->get('perPage', 10);
-            $relations = ['vessel','country'];
+            $relations = ['vessel','terminal','lastCall','nextCall','routings'];
             $response = $this->repo->all(relations: $relations, paginate: $paginate, perPage: $perPage);
 
             return successResponse($response, Constant::MESSAGE_FETCHED, $paginate);
@@ -44,7 +44,7 @@ class VoyageController extends BaseController
     public function store(VoyageRequest $request)
     {
         try {
-            $response = $this->repo->create($request->validated());
+            $response = $this->repo->createVoyage($request->validated());
 
             return successResponse($response, Constant::MESSAGE_CREATED);
         } catch (Exception $e) {
@@ -58,7 +58,8 @@ class VoyageController extends BaseController
     public function show(Voyage $voyage)
     {
         try {
-            $response = $this->repo->showModel($voyage);
+            $relations = ['vessel','terminal','lastCall','nextCall','routings'];
+            $response = $this->repo->showModel($voyage, $relations);
             
             return successResponse($response, Constant::MESSAGE_FETCHED);
         } catch (Exception $e) {
@@ -73,7 +74,7 @@ class VoyageController extends BaseController
     {
         try {
             $data = $request->validated();
-            $response = $this->repo->updateModel($voyage, $data);
+            $response = $this->repo->updateVoyage($voyage, $data);
 
             return successResponse($response, Constant::MESSAGE_UPDATED);
         } catch (Exception $e) {

@@ -24,29 +24,34 @@ class VoyageRequest extends BaseRequest
 
         return [
             'vessel_id' => 'required|exists:vessels,id',
-            'terminal_name' => 'nullable|string|max:255',
-            'country_id' => 'nullable|exists:countries,id',
-            'last_voyage_copy' => 'nullable|string|max:255',
+            'terminal_id' => 'nullable|exists:tagging_points,id',
+            'last_call_id' => 'nullable|exists:tagging_points,id',
+            'next_call_id' => 'nullable|exists:tagging_points,id',
             'voyage_number' => 'nullable|string|max:255',
-            'last_call' => 'nullable|date',
-            'last_call_voyage_copy' => 'nullable|string|max:255',
-            'next_call' => 'nullable|date',
-            'next_call_voyage_copy' => 'nullable|string|max:255',
-            'routing' => 'nullable|array',
-            'transit_time_routing_ports' => 'nullable|integer|min:0',
-            'additional_ports' => 'nullable|array',
-            'transit_time_additional_ports' => 'nullable|integer|min:0',
-            'via_ports' => 'nullable|array',
+
+            // Routing IDs (Voyage Routing)
+            'routing_ids' => 'nullable|array',
+            'routing_ids.*' => 'exists:tagging_points,id',
+
+            // Routing
+            'transit_time_routing_port_id' => 'nullable|exists:tagging_points,id',
+            'transit_time_additional_ports' => 'nullable|integer',
+
+            // Timing and Status
             'shipping_instruction' => 'nullable|date',
             'cut_off_time' => 'nullable|date',
             'expected_time_of_arrival' => 'nullable|date',
             'arrived_at' => 'nullable|date',
             'expected_time_of_departure' => 'nullable|date',
             'sailed_at' => 'nullable|date',
+
+            // Customs and Documentation
             'vir_number' => 'nullable|string|max:255',
             'vir_date' => 'nullable|date',
             'custom_file_number' => 'nullable|string|max:255',
             'bond_submitted_date' => 'nullable|date',
+
+            // Slot Partners
             'slot_partners' => 'nullable|array',
         ];
     }

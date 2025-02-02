@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id')->constrained('companies')->cascadeOnDelete();
             $table->foreignId('customer_id')->constrained('customers')->cascadeOnDelete();
-            $table->string('service_type')->nullable(); // 1, 2, 3, etc.
-            $table->enum('shipment_type', ['By Sea', 'By Air', 'By Road'])->nullable();
+            $table->string('shipment_type')->nullable();
             $table->integer('number_of_containers')->nullable();
             $table->string('bulk_details')->nullable();
             $table->string('other_details')->nullable();
@@ -28,10 +27,9 @@ return new class extends Migration
             $table->foreignId('shipping_line_id')->constrained('shipping_lines')->cascadeOnDelete();
             $table->foreignId('voyage_id')->nullable()->constrained('voyages')->nullOnDelete();
             $table->date('eta')->nullable(); // Estimated Time of Arrival
-            $table->boolean('sgs_required')->default(false);
             $table->boolean('fumigation_required')->default(false);
             $table->boolean('fumigation_certificate_required')->default(false);
-            $table->enum('document_type', ['CNF', 'CIF', 'FOB', 'ETC'])->nullable();
+            $table->string('document_type')->nullable();
             $table->string('loading_person')->nullable();
             $table->string('loading_person_cell')->nullable();
             $table->timestamps();
