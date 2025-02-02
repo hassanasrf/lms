@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\User;
+use App\Models\Domain;
+use App\Models\Subdomain;
 use App\Helpers\Constant;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -18,6 +21,16 @@ class AuthController extends BaseController
         try {
             $guard = request()->segment(2) === 'company' ? 'api' : request()->segment(2);
             $credentials = $request->only(['email', 'password']);
+
+            // Get domain and subdomain from the request
+            $domain = $request->input('domain');
+            $subdomain = $request->input('subdomain');
+
+            if ($guard === 'api') {
+                if (!$this->isValidDomainAndSubdomain($domain, $subdomain, $guard)) {
+                    return errorResponse(Constant::MESSAGE_INVALID_DOMAINS, 422);
+                }
+            }
 
             if (!$token = auth($guard)->claims(['guard' => $guard])->attempt($credentials)) {
                 return errorResponse(Constant::MESSAGE_INVALID_CREDENTIALS, 422);
@@ -41,6 +54,30 @@ class AuthController extends BaseController
         } catch (Exception $e) {
             return errorResponse($e->getMessage(), $e->getCode());
         }
+    }
+
+    /**
+     * Validate domain and subdomain to ensure it's for the correct company.
+     */
+    private function isValidDomainAndSubdomain(string $domain, string $subdomain, string $guard): bool
+    {
+        $email = request()->email;
+        $user = User::where('email', $email)->first();
+
+        // Check if the user exists
+        if (!$user) {
+            return false;
+        }
+
+        $domain = Domain::where('name', $domain)
+            ->where('company_id', $user->company_id)
+            ->first();
+
+        $subdomainExists = Subdomain::where('name', $subdomain)
+            ->where('company_id', $user->company_id)
+            ->exists();
+
+        return $domain && $subdomainExists;
     }
 
     /**

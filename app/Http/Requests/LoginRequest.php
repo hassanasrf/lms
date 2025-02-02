@@ -33,6 +33,11 @@ class LoginRequest extends BaseRequest
 
         $rules['email'] .= $isAdminRoute ? '|exists:admins,email' : '|exists:users,email';
 
+        if (!$isAdminRoute) {
+            $rules['domain'] = 'required|string';
+            $rules['subdomain'] = 'required|string';
+        }
+
         return $rules;
     }
 
@@ -49,6 +54,12 @@ class LoginRequest extends BaseRequest
             ],
             'password' => [
                 'description' => 'The password of the user.',
+            ],
+            'domain' => [
+                'description' => 'The domain of the user, for example: "example.com".',
+            ],
+            'subdomain' => [
+                'description' => 'The subdomain of the user, for example: "sub.example.com".',
             ],
         ];
     }

@@ -33,4 +33,5 @@ class Constant
    const MESSAGE_INVALID_CREDENTIALS = 'Incorrect credentials, Please try again.';
    const MESSAGE_DEACTIVATED = 'Your account is deactivated, Please contact admin.';
    const MESSAGE_UNAUTHORIZED = 'Unauthorized';
+   const MESSAGE_INVALID_DOMAINS = 'Invalid domain or subdomain for this company.';
 }
