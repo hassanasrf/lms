@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('currency_id')->nullable()->constrained('currencies')->nullOnDelete();
             $table->foreignId('packing_id')->nullable()->constrained('packages')->nullOnDelete();
             $table->string('name');
+            $table->string('type')->nullable();
             $table->string('hs_code')->nullable();
             $table->boolean('dangerous_cargo')->default(false);
             $table->string('undg_code')->nullable();
@@ -65,11 +66,6 @@ return new class extends Migration
             // Stamp Duty
             $table->decimal('stamp_duty_value', 15, 2)->nullable();
             $table->string('stamp_duty_type')->nullable();
-
-            // Export
-            $table->string('export_value')->nullable();
-            $table->string('export_value_type')->nullable();
-            $table->string('export_currency')->nullable();
 
             // Net Total
             $table->string('net_total')->nullable();

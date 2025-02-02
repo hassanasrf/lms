@@ -27,6 +27,7 @@ class CommodityRequest extends BaseRequest
 
             // Commodity fields
             'name' => 'required|string|max:255',
+            'type' => 'required|string|max:255',
             'hs_code' => 'nullable|string|max:50',
             'dangerous_cargo' => 'nullable|boolean',
             'undg_code' => 'nullable|string|max:50',
@@ -76,11 +77,6 @@ class CommodityRequest extends BaseRequest
             'stamp_duty_value' => 'nullable|numeric|min:0',
             'stamp_duty_type' => 'nullable|string|max:50',
 
-            // Export fields
-            'export_value' => 'nullable|string|max:255',
-            'export_value_type' => 'nullable|string|max:50',
-            'export_currency' => 'nullable|string|max:3',
-
             // Net Total
             'net_total' => 'nullable|string|max:255',
         ];
@@ -100,6 +96,10 @@ class CommodityRequest extends BaseRequest
             'name.required' => 'The commodity name is required.',
             'name.string' => 'The commodity name must be a string.',
             'name.max' => 'The commodity name may not be greater than 255 characters.',
+
+            'type.required' => 'The commodity type is required.',
+            'type.string' => 'The commodity type must be a string.',
+            'type.max' => 'The commodity type may not be greater than 255 characters.',
             
             'hs_code.string' => 'The HS code must be a string.',
             'hs_code.max' => 'The HS code may not be greater than 50 characters.',
@@ -176,15 +176,6 @@ class CommodityRequest extends BaseRequest
             'stamp_duty_value.min' => 'The stamp duty value must be at least 0.',
             'stamp_duty_type.string' => 'The stamp duty type must be a string.',
             'stamp_duty_type.max' => 'The stamp duty type may not be greater than 50 characters.',
-            
-            'export_value.string' => 'The export value must be a string.',
-            'export_value.max' => 'The export value may not be greater than 255 characters.',
-            
-            'export_value_type.string' => 'The export value type must be a string.',
-            'export_value_type.max' => 'The export value type may not be greater than 50 characters.',
-            
-            'export_currency.string' => 'The export currency must be a string.',
-            'export_currency.max' => 'The export currency may not be greater than 3 characters.',
             
             'net_total.string' => 'The net total must be a string.',
             'net_total.max' => 'The net total may not be greater than 255 characters.',
